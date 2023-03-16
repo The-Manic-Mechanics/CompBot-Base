@@ -91,7 +91,7 @@ public class RobotContainer {
   // ---------------------------
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  public static final Joystick driverMainController = new Joystick(ControllerConstants.DRIVERONE_PORT);
+  public static final XboxController driverMainController = new XboxController(ControllerConstants.DRIVERONE_PORT);
   private final JoystickButton mainButton1 = new JoystickButton(driverMainController, 1);
   private final JoystickButton mainButton2 = new JoystickButton(driverMainController, 4);
 
@@ -155,9 +155,9 @@ public class RobotContainer {
   // ----------------------------
 
     driverSecondA.onTrue(cmdTelescoperIn);
-    if ((sysArm.GetArmEnc() < 5500 ) || (sysArm.GetArmEnc() > 450 )) {
-      driverSecondY.onTrue(cmdTelescoperOut);
-    }
+   
+    driverSecondY.onTrue(cmdTelescoperOut);
+
     
 
     driverSecondLeftBump.onTrue(cmdClawOpen);
