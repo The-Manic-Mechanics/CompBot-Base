@@ -10,6 +10,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ClawClose;
 import frc.robot.commands.ClawOpen;
 import frc.robot.commands.DriveMecanum;
+import frc.robot.commands.DumbAuton;
 import frc.robot.commands.TelescoperIn;
 import frc.robot.commands.TelescoperOut;
 import frc.robot.commands.BrakeDown;
@@ -79,6 +80,8 @@ public class RobotContainer {
 
   private final TelescoperIn cmdTelescoperIn = new TelescoperIn(sysSolenoids, sysArm);
   private final TelescoperOut cmdTelescoperOut = new TelescoperOut(sysSolenoids, sysArm);
+
+  private final DumbAuton cmdDumbAuton = new DumbAuton(sysDriveTrain, sysArm, sysSolenoids);
 
   private final BrakeUp cmdBrakeUp = new BrakeUp(sysSolenoids);
   private final BrakeDown cmdBrakeDown = new BrakeDown(sysSolenoids);
@@ -171,11 +174,11 @@ public class RobotContainer {
   }
 
   // /**
-  //  * Use this to pass the autonomous command to the main {@link Robot} class.
-  //  *
+  //  * Use this to pass the autonomous command to the main {@link Rob
+    
   //  * @return the command to run in autonomous
   //  */
   public Command getAutonomousCommand() {
-    return sysDriveTrain.autoRoutineChooser.getSelected();
+    return cmdDumbAuton;
   }
 }
