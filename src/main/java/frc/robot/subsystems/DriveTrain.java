@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveTrain.*;
 import frc.robot.Constants.Auton;
+import  com.ctre.phoenix6.hardware.TalonFX;
 
 /**
 * The subsystem that holds all the motors and functions pertaining to the DriveTrain
@@ -44,7 +44,7 @@ public final class DriveTrain extends SubsystemBase {
 	private static MecanumDriveKinematics mecanumDriveKinematics;
 
 	public static class Motors {
-		public static /* WPI_VictorSPX */ Spark frontLeft, frontRight, backLeft, backRight;
+		public static TalonFX frontLeft, frontRight, backLeft, backRight;
 	}
 
 	public static class Encoders {
@@ -52,10 +52,10 @@ public final class DriveTrain extends SubsystemBase {
 	}
 
 	public DriveTrain() {
-		Motors.frontLeft = new Spark(MotorPorts.FRONT_LEFT);
-		Motors.frontRight = new Spark(MotorPorts.FRONT_RIGHT);
-		Motors.backLeft = new Spark(MotorPorts.BACK_LEFT);
-		Motors.backRight = new Spark(MotorPorts.BACK_RIGHT);
+		Motors.frontLeft = new TalonFX(MotorPorts.FRONT_LEFT);
+		Motors.frontRight = new TalonFX(MotorPorts.FRONT_RIGHT);
+		Motors.backLeft = new TalonFX(MotorPorts.BACK_LEFT);
+		Motors.backRight = new TalonFX(MotorPorts.BACK_RIGHT);
 
 		Encoders.frontLeft = new Encoder(
 				EncoderPorts.FRONT_LEFT_A,
