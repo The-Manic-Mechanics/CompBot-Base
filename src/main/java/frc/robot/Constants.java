@@ -105,19 +105,19 @@ public final class Constants {
 			 * Front Left CAN Port
 			 */
 			public static final int
-			FRONT_LEFT = 0,
+			FRONT_LEFT = 2,
 			/**
 			 * Front Right CAN Port
 			 */
-			FRONT_RIGHT = 0,
+			FRONT_RIGHT = 7,
 			/**
 			 * Back Left CAN Port
 			 */
-			BACK_LEFT = 0,
+			BACK_LEFT = 5,
 			/**
 			 * Back Right CAN Port
 			 */
-			BACK_RIGHT = 0;
+			BACK_RIGHT = 6;
 		}
 
 		public static class EncoderPorts {
@@ -126,35 +126,35 @@ public final class Constants {
 			 * Front Left Encoder Channel A
 			 */
 			public static final int
-			FRONT_LEFT_A = 0,
+			FRONT_LEFT_A = 9,
 			/**
 			 * Front Left Encoder Channel B
 			 */
-			FRONT_LEFT_B = 0,
+			FRONT_LEFT_B = 9,
 			/**
 			 * Front Right Encoder Channel A
 			 */
-			FRONT_RIGHT_A = 0,
+			FRONT_RIGHT_A = 9,
 			/**
 			 * Front Right Encoder Channel B
 			 */
-			FRONT_RIGHT_B = 0,
+			FRONT_RIGHT_B = 9,
 			/**
 			 * Back Left Encoder Channel A
 			 */
-			BACK_LEFT_A = 0,
+			BACK_LEFT_A = 9,
 			/**
 			 * Back Left Encoder Channel B
 			 */
-			BACK_LEFT_B = 0,
+			BACK_LEFT_B = 9,
 			/**
 			 * Back Right Encoder Channel A
 			 */
-			BACK_RIGHT_A = 0,
+			BACK_RIGHT_A = 9,
 			/**
 			 * Back Right Encoder Channel B
 			 */
-			BACK_RIGHT_B = 0;
+			BACK_RIGHT_B = 9;
 		}
 
 		public static class MotorLocations {
