@@ -44,14 +44,14 @@ public final class DriveAuton extends Command {
 	public void execute() {
 		// Checking if the encoders have read the desired distance and stopping if they have
 		
-		// if ((DriveTrain.Encoders.frontLeft.getDistance() >= driveInches ||
-		// 		(DriveTrain.Encoders.frontRight.getDistance() >= driveInches) ||
-		// 		(DriveTrain.Encoders.backLeft.getDistance() >= driveInches) ||
-		// 		(DriveTrain.Encoders.backRight.getDistance() >= driveInches))) {
-		// 	DriveTrain.mecanum.driveCartesian(0, 0, 0);
-		// 	isFinished = true;
-		// } else
-		// 	DriveTrain.mecanum.driveCartesian(speedX, speedY, speedZ);
+		if ((DriveTrain.Encoders.frontLeft.getDistance() >= driveInches ||
+				(DriveTrain.Encoders.frontRight.getDistance() >= driveInches) ||
+				(DriveTrain.Encoders.backLeft.getDistance() >= driveInches) ||
+				(DriveTrain.Encoders.backRight.getDistance() >= driveInches))) {
+			DriveTrain.mecanum.driveCartesian(0, 0, 0);
+			isFinished = true;
+		} else
+			DriveTrain.mecanum.driveCartesian(speedX, speedY, speedZ);
 	}
 
 

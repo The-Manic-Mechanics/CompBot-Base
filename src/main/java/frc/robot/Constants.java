@@ -126,35 +126,35 @@ public final class Constants {
 			 * Front Left Encoder Channel A
 			 */
 			public static final int
-			FRONT_LEFT_A = 9,
+			FRONT_LEFT_A = 4,
 			/**
 			 * Front Left Encoder Channel B
 			 */
-			FRONT_LEFT_B = 9,
+			FRONT_LEFT_B = 5,
 			/**
 			 * Front Right Encoder Channel A
 			 */
-			FRONT_RIGHT_A = 9,
+			FRONT_RIGHT_A = 6,
 			/**
 			 * Front Right Encoder Channel B
 			 */
-			FRONT_RIGHT_B = 9,
+			FRONT_RIGHT_B = 7,
 			/**
 			 * Back Left Encoder Channel A
 			 */
-			BACK_LEFT_A = 9,
+			BACK_LEFT_A = 0,
 			/**
 			 * Back Left Encoder Channel B
 			 */
-			BACK_LEFT_B = 9,
+			BACK_LEFT_B = 1,
 			/**
 			 * Back Right Encoder Channel A
 			 */
-			BACK_RIGHT_A = 9,
+			BACK_RIGHT_A = 2,
 			/**
 			 * Back Right Encoder Channel B
 			 */
-			BACK_RIGHT_B = 9;
+			BACK_RIGHT_B = 3;
 		}
 
 		public static class MotorLocations {
