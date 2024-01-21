@@ -11,7 +11,7 @@ import frc.robot.subsystems.Gyroscope;
 /**
 * Used to Drive the robot during auton via the inputed speeds and distance
 */
-public final class DriveAuton extends Command {
+public final class DriveAutonSimple extends Command {
 	double 
 		driveInches, 
 		speedX, 
@@ -25,7 +25,7 @@ public final class DriveAuton extends Command {
      * @param inSpeedY The speed to travel in the Y direction
      * @param inSpeedZ The speed to travel in the Z direction
     */
-	public DriveAuton(
+	public DriveAutonSimple(
 			DriveTrain inSysDriveTrain, Gyroscope inSysGyroscope, double inDriveInches, double inSpeedX,
 			double inSpeedY, double inSpeedZ, boolean inFinishOnIncline) {
 		addRequirements(inSysDriveTrain, inSysGyroscope);

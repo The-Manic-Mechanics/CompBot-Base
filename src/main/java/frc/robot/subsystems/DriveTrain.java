@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
@@ -100,11 +101,11 @@ public final class DriveTrain extends SubsystemBase {
 				Encoders.backRight.getDistance()
 		);
 
-		// double[] currentPose = LimeLight.botPoseArray;
+		double[] currentPose = LimeLight.botPoseArray;
 
-		// Pose2d initPose = new Pose2d(currentPose[1], currentPose[2], Gyroscope.sensor.getRotation2d());
+		Pose2d initPose = new Pose2d(currentPose[1], currentPose[2], Gyroscope.sensor.getRotation2d());
 
-		// mecanumDriveOdometry = new MecanumDriveOdometry(mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), wheelPositions, initPose);
+		mecanumDriveOdometry = new MecanumDriveOdometry(mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), wheelPositions, initPose);
 	}
 
     /**
@@ -121,7 +122,7 @@ public final class DriveTrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be csalled once per scheduler run
-		// mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), wheelPositions);
+		mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), wheelPositions);
 
 		SmartDashboard.putNumber("X Value", RobotContainer.driverOneController.getLeftX());
 		SmartDashboard.putNumber("Y Value", RobotContainer.driverOneController.getLeftY());

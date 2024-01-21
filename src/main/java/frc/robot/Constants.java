@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -30,11 +32,7 @@ public final class Constants {
             DRIVERTWO_PORT = 1;
 	}
 	
-	public static class LimeLightOffsets {
-		/**
-		 * TODO: Change accordingly.
-         * How far offset the robot is from being collinear with the AprilTag (Vertical).
-         */
+	public static class LimelightMounting {
 	    public static final double
 	         /**
 			  * TODO: Change accordingly.
@@ -49,21 +47,19 @@ public final class Constants {
 			lensHeightInches = 20;
 	}
 
+	public static class Gyroscope {
+		public static final Port gyroPort = SPI.Port.kMXP;
+	}
+
 	public static class AprilTagCoords {
 		/**
-		 * FIXME: What is this?
-		 * Direction: 1 (or !(2 or 3)) is Forward, 2 is Left, 3 is Right
+		 * Function to get the coordinates of a given apriltag as a Translation2D (x and y)
+		 * @param in_id The id of the apriltag
+		 * @return The field coordinates of the given apriltag as a Translation2D
 		 */
-		public static Translation2d TranslationFromAprilTagCoordinate(double in_id, int direction) {
-			int id = (int) in_id;
-			if (direction == 2) // Left
-				// TODO: Change accordingly. (the added constant)
-				return new Translation2d(MAP[id][0], MAP[id][1] + 13.75);
-			else if (direction == 3) // Right
-				// TODO: Change accordingly. (the subtracted constant)
-				return new Translation2d(MAP[id][0], MAP[id][1] - 13.75);
-			else
-				return new Translation2d(MAP[id][0], MAP[id][1]);
+		public static Translation2d TranslationFromAprilTagCoordinate(int in_id) {
+			int id = in_id;
+			return new Translation2d(MAP[id - 1][0], MAP[id - 1][1]);
 		}
 
 		/**
@@ -72,35 +68,58 @@ public final class Constants {
 		 */
 		public static final double[][] MAP = {
 				{
-						0.0, 0.0, 0.0, 0.0
+					593.68, 9.68, 53.38, 120
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					637.21, 34.79, 53.38, 120
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					652.73, 196.17, 57.13, 180
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					652.73, 218.42, 57.13, 180
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					578.77, 323.0, 53.38, 270
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					72.5, 323.0, 53.38, 270
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					-1.5, 218.42, 57.13, 0
 				},
 				{
-						0.0, 0.0, 0.0, 0.0
+					-1.5, 196.17, 57.13, 0
+				},
+				{
+					14.02, 34.79, 53.38, 60
+				},
+				{
+					57.54, 9.68, 53.38, 60
+				},
+				{
+					468.69, 146.19, 52.0, 300
+				},
+				{
+					468.69, 177.1, 52.0, 60
+				},
+				{
+					441.74, 161.62, 52.0, 180
+				},
+				{
+					209.48, 161.62, 52.0, 0
+				},
+				{
+					182.73, 177.1, 52.0, 120
+				},
+				{
+					182.73, 146.19, 52.0, 240
 				}
 		};
 	}
 
 	public static class DriveTrain {
 		public static class MotorPorts {
-			// TODO: Fill in port traffic information once we have it.
 			/**
 			 * Front Left CAN Port
 			 */
@@ -121,7 +140,6 @@ public final class Constants {
 		}
 
 		public static class EncoderPorts {
-			// TODO: Fill in port traffic information once we have it.
 			/**
 			 * Front Left Encoder Channel A
 			 */
