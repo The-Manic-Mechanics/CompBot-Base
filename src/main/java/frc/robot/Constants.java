@@ -203,32 +203,73 @@ public final class Constants {
 
 	public static class Auton {
 		/**
-		 * TODO: Change accordingly.
 		 * The max forward speed of the robot in meters per second.
 		 */
 		public static final double
-		MAX_METRES_PER_SEC = 0, 
+		MAX_METRES_PER_SEC = .3, 
 		/**
-		 * TODO: Change accordingly.
 		 * The max acceleration of the robot in meters per second.
 		 */
-		MAX_ACCEL = 0,
+		MAX_ACCEL = .3,
 		/**
-		 * TODO: Change accordingly.
 		 * The prefered velocity of the robot in autonomous mode in meters per second.
 		 */
-		DRIVE_VEL = 0,
+		DRIVE_VEL = 8.5,
 		/**
 		 * TODO: Change accordingly.
-		 * The distance between the left and right wheels.
+		 * The distance between the left and right wheels in metres.
 		 */
-		TRACK_WIDTH_METRES = 0,
+		TRACK_WIDTH_METRES = .4826,
 		/**
-		 * TODO: Change accordingly.
 		 * The distance (In feet) per each pulse on the encoder
 		 */
-		DISTANCE_PER_PULSE = 0;
+		DISTANCE_PER_PULSE = 25.132741228718 / 8192;
 
 		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
+
+		public static class PIDControllers {
+			public static class HolonomicController {
+				public static final double
+				/**
+				 * The P co nstant for the holonomicController's x correction PID loop (x in the field space)
+				 */
+				XCONTROLLER_P = 0,
+				/**
+				 * The I constant for the holonomicController's x correction PID loop (x in the field space)
+				 */
+				XCONTROLLER_I = 0,
+				/**
+				 * The D constant for the holonomicController's x correction PID loop (x in the field space)
+				 */
+				XCONTROLLER_D = 0,
+
+				/**
+				 * The P constant for the holonomicController's y correction PID loop (y in the field space)
+				 */
+				YCONTROLLER_P = 0,
+				/**
+				 * The I constant for the holonomicController's y correction PID loop (y in the field space)
+				 */
+				YCONTROLLER_I = 0,
+				/**
+				 * The D constant for the holonomicController's y correction PID loop (y in the field space)
+				 */
+				YCONTROLLER_D = 0,
+
+				/**
+				 * The P constant for the holonomicController's rotation correction PID loop (In degrees)
+				 */
+				THETACONTROLLER_P = 0,
+				/**
+				 * The I constant for the holonomicController's rotation correction PID loop (In degrees)
+				 */
+				THETACONTROLLER_I = 0,
+				/**
+				 * The D constant for the holonomicController's rotation correction PID loop (In degrees)
+				 */
+				THETACONTROLLER_D = 0;
+
+			}
+		}
 	}
 }

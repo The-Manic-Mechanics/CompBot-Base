@@ -28,21 +28,6 @@ public final class DriveTrain extends SubsystemBase {
 	*/
 	public static MecanumDrive mecanum;
 
-	/**
-	* Used for keeping track of the robot's position while it drives
-	*/
-	public static MecanumDriveOdometry mecanumDriveOdometry;
-
-    /**
-    * Stores the position of the wheels in robot space (Used for kinematics and odometry)
-    */
-	private static MecanumDriveWheelPositions wheelPositions;
-
-	/**
-	* Used for tracking how far the robot actually goes compared to what values are being inputed
-	*/
-	private static MecanumDriveKinematics mecanumDriveKinematics;
-
 	public static class Motors {
 		public static WPI_VictorSPX frontLeft, frontRight, backLeft, backRight;
 	}
@@ -51,11 +36,45 @@ public final class DriveTrain extends SubsystemBase {
 		public static Encoder frontLeft, frontRight, backLeft, backRight;
 	}
 
+	public static class Odometry {
+		/**
+		* Used for keeping track of the robot's position while it drives
+		*/
+		public static MecanumDriveOdometry mecanumDriveOdometry;
+		
+	}
+
+	public static class Kinematics {
+		/**
+		* Used for tracking how far the robot actually goes compared to what values are being inputed
+		*/
+		private static MecanumDriveKinematics mecanumDriveKinematics;
+		/**
+		* Stores the position of the wheels in robot space (Used for kinematics and odometry)
+		*/
+		private static MecanumDriveWheelPositions wheelPositions;
+		
+	}
+
 	public DriveTrain() {
+
+		// ----------------------------
+		// Motors
+		// ----------------------------
+
 		Motors.frontLeft = new WPI_VictorSPX(MotorPorts.FRONT_LEFT);
 		Motors.frontRight = new WPI_VictorSPX(MotorPorts.FRONT_RIGHT);
 		Motors.backLeft = new WPI_VictorSPX(MotorPorts.BACK_LEFT);
 		Motors.backRight = new WPI_VictorSPX(MotorPorts.BACK_RIGHT);
+
+		Motors.frontLeft.setInverted(true);
+		Motors.backLeft.setInverted(true);
+
+		// ------------------------------------------------------------
+
+		// ----------------------------
+		// Encoders
+		// ----------------------------
 
 		Encoders.frontLeft = new Encoder(
 				EncoderPorts.FRONT_LEFT_A,
@@ -81,12 +100,21 @@ public final class DriveTrain extends SubsystemBase {
 		Encoders.backLeft.setDistancePerPulse(Auton.DISTANCE_PER_PULSE);
 		Encoders.backRight.setDistancePerPulse(Auton.DISTANCE_PER_PULSE);
 
-		Motors.frontLeft.setInverted(true);
-		Motors.backLeft.setInverted(true);
+		// ---------------------------------------------------------------
+
+		// ----------------------
+		// MecanumDrive object
+		// ----------------------
 
 		mecanum = new MecanumDrive(Motors.frontLeft, Motors.backLeft, Motors.frontRight, Motors.backRight);
 
-		mecanumDriveKinematics = new MecanumDriveKinematics
+		// ------------------------------------------------------------
+
+		// --------------------------
+		// Kinematics
+		// --------------------------
+
+		Kinematics.mecanumDriveKinematics = new MecanumDriveKinematics
 	    (
 			new Translation2d(MotorLocations.FRONT_LEFT, MotorLocations.FRONT_LEFT),
 			new Translation2d(MotorLocations.FRONT_RIGHT, -1 * MotorLocations.FRONT_RIGHT),
@@ -94,18 +122,32 @@ public final class DriveTrain extends SubsystemBase {
 			new Translation2d(-1 * MotorLocations.BACK_RIGHT, -1 * MotorLocations.BACK_RIGHT)
 		);
 
-		wheelPositions = new MecanumDriveWheelPositions(
+		Kinematics.wheelPositions = new MecanumDriveWheelPositions(
 				Encoders.frontLeft.getDistance(),
 				Encoders.frontRight.getDistance(),
 				Encoders.backLeft.getDistance(),
 				Encoders.backRight.getDistance()
 		);
 
+		// -----------------------------------------------------------
+
+		// ----------------------------
+		// Limelight Pose
+		// ----------------------------
+
 		double[] currentPose = LimeLight.botPoseArray;
 
 		Pose2d initPose = new Pose2d(currentPose[1], currentPose[2], Gyroscope.sensor.getRotation2d());
 
-		mecanumDriveOdometry = new MecanumDriveOdometry(mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), wheelPositions, initPose);
+		// ------------------------------------------------------------------
+
+		// -----------------------------
+		// Odometry
+		// -----------------------------
+
+		Odometry.mecanumDriveOdometry = new MecanumDriveOdometry(Kinematics.mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, initPose);
+	
+		// ------------------------------------------------------------------
 	}
 
     /**
@@ -122,7 +164,7 @@ public final class DriveTrain extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be csalled once per scheduler run
-		mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), wheelPositions);
+		Odometry.mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions);
 
 		SmartDashboard.putNumber("X Value", RobotContainer.driverOneController.getLeftX());
 		SmartDashboard.putNumber("Y Value", RobotContainer.driverOneController.getLeftY());
