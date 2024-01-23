@@ -46,8 +46,8 @@ public final class DriveAutonSimple extends Command {
 		
 		if ((DriveTrain.Encoders.frontLeft.getDistance() >= driveInches ||
 				(DriveTrain.Encoders.frontRight.getDistance() >= driveInches) ||
-				(DriveTrain.Encoders.backLeft.getDistance() >= driveInches) ||
-				(DriveTrain.Encoders.backRight.getDistance() >= driveInches))) {
+				(DriveTrain.Encoders.rearLeft.getDistance() >= driveInches) ||
+				(DriveTrain.Encoders.rearRight.getDistance() >= driveInches))) {
 			DriveTrain.mecanum.driveCartesian(0, 0, 0);
 			isFinished = true;
 		} else

@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.Auton.PIDControllers.HolonomicController;
+import frc.robot.subsystems.DriveTrain.Odometry;
 /**
  * PathPlanner implementation auton
  */
@@ -27,9 +28,9 @@ public class ComplexAuton extends SubsystemBase {
                  // Robot pose supplier, currently using the odometry
                 DriveTrain.Odometry.mecanumDriveOdometry::getPoseMeters,
                 // Method to reset odometry (Only called if auto has a starting pose)
-                DriveTrain.Odometry.mecanumDriveOdometry::,
+                Odometry.resetDriveOdometry(),
                 // Robot speed supplier, taken as a ChassisSpeeds (Robot relative)
-                this::getRobotRelativeSpeeds,
+                DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds)),
                 // Method that drives the robot via a ChassisSpeeds
                 this::driveRobotRelative, 
                 new HolonomicPathFollowerConfig(
