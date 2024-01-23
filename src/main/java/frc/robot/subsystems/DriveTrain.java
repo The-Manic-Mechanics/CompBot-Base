@@ -161,6 +161,14 @@ public final class DriveTrain extends SubsystemBase {
 				Encoders.backLeft.getDistance(), Encoders.backRight.getDistance());
 	}
 
+	public static void resetDriveOdometry() {
+		if (LimeLight.tagID == 0)
+			Odometry.mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), getWheelPositions(), Odometry.mecanumDriveOdometry.getPoseMeters());
+		else
+			Odometry.mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), getWheelPositions(), LimeLight.GetBotPose2d());
+	}	
+
+
 	@Override
 	public void periodic() {
 		// This method will be csalled once per scheduler run

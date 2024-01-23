@@ -25,10 +25,9 @@ public class ComplexAuton extends SubsystemBase {
     // FIXME Unfinished
     AutoBuilder.configureHolonomic(
                  // Robot pose supplier, currently using the odometry
-                DriveTrain.mecanumDriveOdometry::getPoseMeters,
-                // TODO Make this method
+                DriveTrain.Odometry.mecanumDriveOdometry::getPoseMeters,
                 // Method to reset odometry (Only called if auto has a starting pose)
-                DriveTrain::,
+                DriveTrain.Odometry.mecanumDriveOdometry::,
                 // Robot speed supplier, taken as a ChassisSpeeds (Robot relative)
                 this::getRobotRelativeSpeeds,
                 // Method that drives the robot via a ChassisSpeeds
