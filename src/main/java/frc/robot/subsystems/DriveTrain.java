@@ -19,6 +19,10 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.DriveTrain.*;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 import com.ctre.phoenix.motorcontrol.can.*;
 
 /**
@@ -44,11 +48,12 @@ public final class DriveTrain extends SubsystemBase {
 		*/
 		public static MecanumDriveOdometry mecanumDriveOdometry;
 
-		public static void resetDriveOdometry() {
-			if (LimeLight.tagID == 0)
+		public static Consumer<Pose2d> resetDriveOdometry() {
+			// if (LimeLight.tagID == 0)
 				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
-			else
-				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
+			// else
+				// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
+			return (Consumer<Pose2d>)new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d());
 		}
 		
 	}
@@ -71,15 +76,14 @@ public final class DriveTrain extends SubsystemBase {
 		 */
 		public static MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds;
 
-		public static ChassisSpeeds getMecanumChassisSpeeds() {
-			// FIXME: Cooking
-			return DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds));
+		public static Supplier<ChassisSpeeds> getMecanumChassisSpeeds() {
+			return (Supplier<ChassisSpeeds>)DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds);
 		}
 
 		/**
 		 * Gets the current mecanum wheel positions.
 		 *
-		 * @return <i>(type MecanumDriveWheelPositions)</i> filled out
+		 * @return <i>(type Mecanum`riveWheelPositions)</i> filled out
 		*/
 		public static MecanumDriveWheelPositions getWheelPositions() {
 			return new MecanumDriveWheelPositions(
@@ -174,9 +178,9 @@ public final class DriveTrain extends SubsystemBase {
 		// Limelight Pose
 		// ----------------------------
 
-		double[] currentPose = LimeLight.botPoseArray;
+		// double[] currentPose = LimeLight.botPoseArray;
 
-		Pose2d initPose = new Pose2d(currentPose[1], currentPose[2], Gyroscope.sensor.getRotation2d());
+		Pose2d initPose = new Pose2d(0,0/*currentPose[1], currentPose[2]*/, Gyroscope.sensor.getRotation2d());
 
 		// ------------------------------------------------------------------
 

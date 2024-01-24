@@ -46,7 +46,7 @@ public final class DriveMecanum extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		// Set the motor speeds to zero on interupt
+		// Set the motor speeds to zero on an interrupt
 		DriveTrain.mecanum.driveCartesian(0, 0, 0);
 	}
 

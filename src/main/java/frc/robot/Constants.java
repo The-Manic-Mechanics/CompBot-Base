@@ -208,10 +208,6 @@ public final class Constants {
 		public static final double
 		MAX_METRES_PER_SEC = .3, 
 		/**
-		 * The max acceleration of the robot in meters per second.
-		 */
-		MAX_ACCEL = .3,
-		/**
 		 * The prefered velocity of the robot in autonomous mode in meters per second.
 		 */
 		DRIVE_VEL = 8.5,
@@ -231,43 +227,30 @@ public final class Constants {
 			public static class HolonomicController {
 				public static final double
 				/**
-				 * The P co nstant for the holonomicController's x correction PID loop (x in the field space)
+				 * The P constant for the holonomicController's translation correction PID loop
 				 */
-				XCONTROLLER_P = 0,
+				TRANSCONTROLLER_P = 0,
 				/**
-				 * The I constant for the holonomicController's x correction PID loop (x in the field space)
+				 * The I constant for the holonomicController's translation correction PID loop
 				 */
-				XCONTROLLER_I = 0,
+				TRANSCONTROLLER_I = 0,
 				/**
-				 * The D constant for the holonomicController's x correction PID loop (x in the field space)
+				 * The D constant for the holonomicController's translation correction PID loop
 				 */
-				XCONTROLLER_D = 0,
-
-				/**
-				 * The P constant for the holonomicController's y correction PID loop (y in the field space)
-				 */
-				YCONTROLLER_P = 0,
-				/**
-				 * The I constant for the holonomicController's y correction PID loop (y in the field space)
-				 */
-				YCONTROLLER_I = 0,
-				/**
-				 * The D constant for the holonomicController's y correction PID loop (y in the field space)
-				 */
-				YCONTROLLER_D = 0,
+				TRANSCONTROLLER_D = 0,
 
 				/**
 				 * The P constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				THETACONTROLLER_P = 0,
+				ROTCONTROLLER_P = 0,
 				/**
 				 * The I constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				THETACONTROLLER_I = 0,
+				ROTCONTROLLER_I = 0,
 				/**
 				 * The D constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				THETACONTROLLER_D = 0;
+				ROTCONTROLLER_D = 0;
 
 			}
 		}

@@ -8,11 +8,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.Auton.PIDControllers.HolonomicController;
@@ -23,26 +20,30 @@ import frc.robot.subsystems.DriveTrain.Odometry;
 public class ComplexAuton extends SubsystemBase {
   /** Creates a new ComplexAuton. */
   public ComplexAuton() {
-    // FIXME Unfinished
     AutoBuilder.configureHolonomic(
                  // Robot pose supplier, currently using the odometry
                 DriveTrain.Odometry.mecanumDriveOdometry::getPoseMeters,
                 // Method to reset odometry (Only called if auto has a starting pose)
                 Odometry.resetDriveOdometry(),
                 // Robot speed supplier, taken as a ChassisSpeeds (Robot relative)
-                DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds)),
+                DriveTrain.Kinematics.getMecanumChassisSpeeds(),
                 // Method that drives the robot via a ChassisSpeeds
                 this::driveRobotRelative, 
                 new HolonomicPathFollowerConfig(
-                        // TODO Move these to constants
                         // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0),
+                        new PIDConstants(
+                          HolonomicController.TRANSCONTROLLER_P, 
+                          HolonomicController.TRANSCONTROLLER_I, 
+                          HolonomicController.TRANSCONTROLLER_D),
                         // Rotation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), 
+                        new PIDConstants(
+                          HolonomicController.ROTCONTROLLER_P, 
+                          HolonomicController.ROTCONTROLLER_I, 
+                          HolonomicController.ROTCONTROLLER_D), 
                         // Max speed of one motor
-                        4.5,
-                        // Distance from robot center to furthest motor (Metres) 
-                        0.4,
+                        Auton.MAX_METRES_PER_SEC,
+                        // Distance from robot center to furthest motor (Meters) 
+                        Auton.TRACK_WIDTH_METRES / 2,
                         // TODO: Default path replanning config, need to check api for this one
                         new ReplanningConfig()
                 ),
@@ -59,6 +60,11 @@ public class ComplexAuton extends SubsystemBase {
               },
               this // Reference to this subsystem to set requirements
       );
+  }
+
+  public void driveRobotRelative(ChassisSpeeds speeds) {
+      // FIXME TODO: So what goes here? The configureHolonomic function doc says this function should "set the robot's robot-relative chassis speeds"
+      DriveTrain.mecanum.driveCartesian(speeds.vxMetersPerSecond /* multiplied by something to make it fit within the limits, loop?, etc... */, speeds.vyMetersPerSecond, Math.toDegrees(speeds.omegaRadiansPerSecond));
   }
 
   @Override
