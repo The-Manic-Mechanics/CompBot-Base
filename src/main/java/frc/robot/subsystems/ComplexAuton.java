@@ -21,44 +21,43 @@ public class ComplexAuton extends SubsystemBase {
   /** Creates a new ComplexAuton. */
   public ComplexAuton() {
     AutoBuilder.configureHolonomic(
-                 // Robot pose supplier, currently using the odometry
-                DriveTrain.Odometry.mecanumDriveOdometry::getPoseMeters,
-                // Method to reset odometry (Only called if auto has a starting pose)
-                Odometry.resetDriveOdometry(),
-                // Robot speed supplier, taken as a ChassisSpeeds (Robot relative)
-                DriveTrain.Kinematics.getMecanumChassisSpeeds(),
-                // Method that drives the robot via a ChassisSpeeds
-                this::driveRobotRelative, 
-                new HolonomicPathFollowerConfig(
-                        // Translation PID constants
-                        new PIDConstants(
-                          HolonomicController.TRANSCONTROLLER_P, 
-                          HolonomicController.TRANSCONTROLLER_I, 
-                          HolonomicController.TRANSCONTROLLER_D),
-                        // Rotation PID constants
-                        new PIDConstants(
-                          HolonomicController.ROTCONTROLLER_P, 
-                          HolonomicController.ROTCONTROLLER_I, 
-                          HolonomicController.ROTCONTROLLER_D), 
-                        // Max speed of one motor
-                        Auton.MAX_METRES_PER_SEC,
-                        // Distance from robot center to furthest motor (Meters) 
-                        Auton.TRACK_WIDTH_METRES / 2,
-                        // TODO: Default path replanning config, need to check api for this one
-                        new ReplanningConfig()
-                ),
-                () -> {
-                  // Boolean supplier that controls when the path will be mirrored for the red alliance
-                  // This will flip the path being followed to the red side of the field.
-                  // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                  var alliance = DriverStation.getAlliance();
-                  if (alliance.isPresent()) {
-                      return alliance.get() == DriverStation.Alliance.Red;
-                  }
-                  return false;
-              },
-              this // Reference to this subsystem to set requirements
+      // Robot pose supplier, currently using the odometry
+      DriveTrain.Odometry.mecanumDriveOdometry::getPoseMeters,
+      // Method to reset odometry (Only called if auto has a starting pose)
+      Odometry.resetDriveOdometry(),
+      // Robot speed supplier, taken as a ChassisSpeeds (Robot relative)
+      DriveTrain.Kinematics.getMecanumChassisSpeeds(),
+      // Method that drives the robot via a ChassisSpeeds
+      this::driveRobotRelative, 
+        new HolonomicPathFollowerConfig(
+          // Translation PID constants
+            new PIDConstants(
+              HolonomicController.TRANSCONTROLLER_P, 
+              HolonomicController.TRANSCONTROLLER_I, 
+              HolonomicController.TRANSCONTROLLER_D),
+          // Rotation PID constants
+            new PIDConstants(
+              HolonomicController.ROTCONTROLLER_P, 
+              HolonomicController.ROTCONTROLLER_I, 
+              HolonomicController.ROTCONTROLLER_D), 
+          // Max speed of one motor
+            Auton.MAX_METRES_PER_SEC,
+          // Distance from robot center to furthest motor (Meters) 
+            Auton.TRACK_WIDTH_METRES / 2,
+          // TODO: Default path replanning config, need to check api for this one
+            new ReplanningConfig()
+        ),
+      () -> {
+        // Boolean supplier that controls when the path will be mirrored for the red alliance
+        // This will flip the path being followed to the red side of the field.
+        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+        },
+      this // Reference to this subsystem to set requirements
       );
   }
 
