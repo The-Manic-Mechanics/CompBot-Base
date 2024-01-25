@@ -229,7 +229,7 @@ public final class Constants {
 				/**
 				 * The P constant for the holonomicController's translation correction PID loop
 				 */
-				TRANSCONTROLLER_P = 0,
+				TRANSCONTROLLER_P = 1,
 				/**
 				 * The I constant for the holonomicController's translation correction PID loop
 				 */
@@ -242,7 +242,7 @@ public final class Constants {
 				/**
 				 * The P constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				ROTCONTROLLER_P = 0,
+				ROTCONTROLLER_P = 1,
 				/**
 				 * The I constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */

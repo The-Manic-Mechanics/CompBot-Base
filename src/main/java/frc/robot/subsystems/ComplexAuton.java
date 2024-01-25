@@ -5,11 +5,15 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.Auton.PIDControllers.HolonomicController;
@@ -18,6 +22,9 @@ import frc.robot.subsystems.DriveTrain.Odometry;
  * PathPlanner implementation auton
  */
 public class ComplexAuton extends SubsystemBase {
+  SendableChooser<Command> autoRoutineChooser;
+  public static PathPlannerPath path;
+  public static Command followPathCommand;
   /** Creates a new ComplexAuton. */
   public ComplexAuton() {
     AutoBuilder.configureHolonomic(
@@ -59,6 +66,15 @@ public class ComplexAuton extends SubsystemBase {
         },
       this // Reference to this subsystem to set requirements
       );
+
+    // Will do nothing as default
+    autoRoutineChooser = AutoBuilder.buildAutoChooser();
+
+    SmartDashboard.putData("Auton Chooser", autoRoutineChooser);
+    // return autoRoutineChooser.getSelected();
+    path = PathPlannerPath.fromPathFile("Test");
+
+    followPathCommand = AutoBuilder.followPath(ComplexAuton.path);
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {

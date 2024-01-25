@@ -6,9 +6,14 @@ package frc.robot;
 
 import frc.robot.Constants.Controllers;
 import frc.robot.commands.DriveMecanum;
+import frc.robot.subsystems.ComplexAuton;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Gyroscope;
 import frc.robot.subsystems.Solenoids;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  SendableChooser<Command> autoRoutineChooser;
 
   private final Solenoids sysSolenoids = new Solenoids();
   private final Gyroscope sysGyroscope = new Gyroscope();
@@ -57,10 +61,6 @@ public class RobotContainer {
   // -------------------------
   // SmartDashboard
   // -------------------------
-  
-    autoRoutineChooser = new SendableChooser<>();
-
-    SmartDashboard.putData("Auton Chooser", autoRoutineChooser);
   }
 
   /**
@@ -81,6 +81,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoRoutineChooser.getSelected();
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return ComplexAuton.followPathCommand;
   }
 }
