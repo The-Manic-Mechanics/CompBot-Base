@@ -12,6 +12,7 @@ import frc.robot.subsystems.Gyroscope;
 import frc.robot.subsystems.Solenoids;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -33,6 +34,7 @@ public class RobotContainer {
 
   private final Solenoids sysSolenoids = new Solenoids();
   private final Gyroscope sysGyroscope = new Gyroscope();
+  private final DriveTrain sysDriveTrain = new DriveTrain();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static final XboxController driverOneController = new XboxController(Controllers.DRIVERONE_PORT);
@@ -51,7 +53,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // The robot's subsystems and commands are defined here...
-    DriveTrain sysDriveTrain = new DriveTrain();
+   
     DriveMecanum cmdDriveMecanum = new DriveMecanum(sysDriveTrain);
     sysDriveTrain.setDefaultCommand(cmdDriveMecanum);
 
@@ -82,6 +84,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
         // Create a path following command using AutoBuilder. This will also trigger event markers.
-        return ComplexAuton.followPathCommand;
+        return null;
   }
 }

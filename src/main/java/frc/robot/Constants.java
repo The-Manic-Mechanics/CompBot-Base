@@ -227,30 +227,30 @@ public final class Constants {
 			public static class HolonomicController {
 				public static final double
 				/**
-				 * The P constant for the holonomicController's translation correction PID loop
+				 * The P constant for the holonomicController's X (Field Relative) correction PID loop
 				 */
-				TRANSCONTROLLER_P = 1,
+				XCONTROLLER_P = 1,
 				/**
-				 * The I constant for the holonomicController's translation correction PID loop
+				 * The I constant for the holonomicController's X (Field Relative) correction PID loop
 				 */
-				TRANSCONTROLLER_I = 0,
+				XCONTROLLER_I = 0,
 				/**
-				 * The D constant for the holonomicController's translation correction PID loop
+				 * The D constant for the holonomicController's X (Field Relative) correction PID loop
 				 */
-				TRANSCONTROLLER_D = 0,
+				XCONTROLLER_D = 0,
 
 				/**
 				 * The P constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				ROTCONTROLLER_P = 1,
+				THETACONTROLLER_P = 1,
 				/**
 				 * The I constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				ROTCONTROLLER_I = 0,
+				THETACONTROLLER_I = 0,
 				/**
 				 * The D constant for the holonomicController's rotation correction PID loop (In degrees)
 				 */
-				ROTCONTROLLER_D = 0;
+				THETACONTROLLER_D = 0;
 
 			}
 		}
