@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+	// FIXME: Javadoc isn't appearing as intended
 	public static class Controllers {
 		/**
 		 * TODO: Change accordingly.
@@ -202,11 +203,12 @@ public final class Constants {
 
 
 	public static class Auton {
-		/**
+		// TODO: Fill in these values
+		/**z
 		 * The max forward speed of the robot in meters per second.
 		 */
 		public static final double
-		MAX_METRES_PER_SEC = .3, 
+		MAX_SPEED = .3, 
 		/**
 		 * The prefered velocity of the robot in autonomous mode in meters per second.
 		 */
@@ -219,7 +221,11 @@ public final class Constants {
 		/**
 		 * The distance (In feet) per each pulse on the encoder
 		 */
-		DISTANCE_PER_PULSE = 25.132741228718 / 8192;
+		DISTANCE_PER_PULSE = 25.132741228718 / 8192,
+		/**
+		 * The maximum acceleration of the robot in meters per second
+		 */
+		MAX_ACCEL = 0;
 
 		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
 
@@ -238,6 +244,19 @@ public final class Constants {
 				 * The D constant for the holonomicController's X (Field Relative) correction PID loop
 				 */
 				XCONTROLLER_D = 0,
+
+				/**
+				 * The P constant for the holonomicController's Y (Field Relative) correction PID loop
+				 */
+				YCONTROLLER_P = 1,
+				/**
+				 * The I constant for the holonomicController's Y (Field Relative) correction PID loop
+				 */
+				YCONTROLLER_I = 0,
+				/**
+				 * The D constant for the holonomicController's Y (Field Relative) correction PID loop
+				 */
+				YCONTROLLER_D = 0,
 
 				/**
 				 * The P constant for the holonomicController's rotation correction PID loop (In degrees)

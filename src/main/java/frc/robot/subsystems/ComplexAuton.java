@@ -13,6 +13,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Auton;
+import frc.robot.Constants.Auton.PIDControllers.HolonomicController;
 /**
  * PathPlanner implementation auton
  */
@@ -20,10 +22,17 @@ public class ComplexAuton extends SubsystemBase {
   SendableChooser<Command> autoRoutineChooser;;
   /** Creates a new ComplexAuton. */
   public ComplexAuton() {
-   var controller = new HolonomicDriveController(
-    new PIDController(1, 0, 0), new PIDController(1, 0, 0),
-    new ProfiledPIDController(1, 0, 0,
-      new TrapezoidProfile.Constraints(6.28, 3.14)));
+  /**
+   * The auton holonomic controller for -+use with following PathWeaver trajectories
+   */
+  var holoController = new HolonomicDriveController(
+    // Correction along the field X axis
+    new PIDController(HolonomicController.XCONTROLLER_P, HolonomicController.XCONTROLLER_I, HolonomicController.XCONTROLLER_D),
+    // Correction along the field Y axis 
+    new PIDController(HolonomicController.YCONTROLLER_P, HolonomicController.YCONTROLLER_I, HolonomicController.YCONTROLLER_D),
+    // For rotation correction 
+    new ProfiledPIDController(HolonomicController.THETACONTROLLER_P, HolonomicController.THETACONTROLLER_I, HolonomicController.THETACONTROLLER_D,
+      new TrapezoidProfile.Constraints(Auton.MAX_SPEED, Auton.MAX_ACCEL)));
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
