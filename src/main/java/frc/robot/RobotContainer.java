@@ -5,19 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.Controllers;
+import frc.robot.commands.ClankAuton;
 import frc.robot.commands.DriveMecanum;
-import frc.robot.subsystems.ComplexAuton;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.ComplexAuton;
 import frc.robot.subsystems.Gyroscope;
 import frc.robot.subsystems.Solenoids;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -35,6 +30,9 @@ public class RobotContainer {
   private final Solenoids sysSolenoids = new Solenoids();
   private final Gyroscope sysGyroscope = new Gyroscope();
   private final DriveTrain sysDriveTrain = new DriveTrain();
+  private final ComplexAuton sysComplexAuton = new ComplexAuton();
+  private final DriveMecanum cmdDriveMecanum = new DriveMecanum(sysDriveTrain);
+  private final ClankAuton cmdClankAuton = new ClankAuton(sysDriveTrain, sysComplexAuton);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static final XboxController driverOneController = new XboxController(Controllers.DRIVERONE_PORT);
@@ -53,8 +51,6 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // The robot's subsystems and commands are defined here...
-   
-    DriveMecanum cmdDriveMecanum = new DriveMecanum(sysDriveTrain);
     sysDriveTrain.setDefaultCommand(cmdDriveMecanum);
 
     // Configure the trigger bindings
@@ -84,6 +80,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
         // Create a path following command using AutoBuilder. This will also trigger event markers.
-        return null;
+        return cmdClankAuton;
   }
 }

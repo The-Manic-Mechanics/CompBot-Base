@@ -19,20 +19,22 @@ import frc.robot.Constants.Auton.PIDControllers.HolonomicController;
  * PathPlanner implementation auton
  */
 public class ComplexAuton extends SubsystemBase {
-  SendableChooser<Command> autoRoutineChooser;;
+  SendableChooser<Command> autoRoutineChooser;
+  /**
+    * The auton holonomic controller for -+use with following PathWeaver trajectories
+    */
+  HolonomicDriveController holoController;
   /** Creates a new ComplexAuton. */
   public ComplexAuton() {
-  /**
-   * The auton holonomic controller for -+use with following PathWeaver trajectories
-   */
-  var holoController = new HolonomicDriveController(
-    // Correction along the field X axis
-    new PIDController(HolonomicController.XCONTROLLER_P, HolonomicController.XCONTROLLER_I, HolonomicController.XCONTROLLER_D),
-    // Correction along the field Y axis 
-    new PIDController(HolonomicController.YCONTROLLER_P, HolonomicController.YCONTROLLER_I, HolonomicController.YCONTROLLER_D),
-    // For rotation correction 
-    new ProfiledPIDController(HolonomicController.THETACONTROLLER_P, HolonomicController.THETACONTROLLER_I, HolonomicController.THETACONTROLLER_D,
-      new TrapezoidProfile.Constraints(Auton.MAX_SPEED, Auton.MAX_ACCEL)));
+    holoController = new HolonomicDriveController(
+        // Correction along the field X axis
+        new PIDController(HolonomicController.XCONTROLLER_P, HolonomicController.XCONTROLLER_I, HolonomicController.XCONTROLLER_D),
+        // Correction along the field Y axis 
+        new PIDController(HolonomicController.YCONTROLLER_P, HolonomicController.YCONTROLLER_I, HolonomicController.YCONTROLLER_D),
+        // For rotation correction 
+        new ProfiledPIDController(HolonomicController.THETACONTROLLER_P, HolonomicController.THETACONTROLLER_I, HolonomicController.THETACONTROLLER_D,
+        new TrapezoidProfile.Constraints(Auton.MAX_SPEED, Auton.MAX_ACCEL))
+    );
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
