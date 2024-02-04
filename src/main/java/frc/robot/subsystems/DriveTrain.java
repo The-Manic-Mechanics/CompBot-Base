@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.math.kinematics.MecanumDriveMotorVoltages;
 import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
@@ -48,6 +49,7 @@ public final class DriveTrain extends SubsystemBase {
 		*/
 		public static MecanumDriveOdometry mecanumDriveOdometry;
 
+		@SuppressWarnings("unchecked")
 		public static Consumer<Pose2d> resetDriveOdometry() {
 			// if (LimeLight.tagID == 0)
 				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
@@ -91,6 +93,32 @@ public final class DriveTrain extends SubsystemBase {
 					DriveTrain.Encoders.frontLeft.getDistance(), DriveTrain.Encoders.frontRight.getDistance(),
 					DriveTrain.Encoders.rearLeft.getDistance(), DriveTrain.Encoders.rearRight.getDistance());
 		}
+
+		/**
+		 * Gets the drivetrain wheelspeeds
+		 * @return A mecan
+		 */
+		@SuppressWarnings ("unchecked")
+		// FIXME: Not sure if this should be negative or not
+		public static Supplier<MecanumDriveWheelSpeeds> getWheelSpeeds() {
+			Kinematics.mecanumDriveWheelSpeeds = new MecanumDriveWheelSpeeds(
+				Math.abs(Motors.frontLeft.get() * Auton.MAX_SPEED), 
+				Math.abs(Motors.frontRight.get() * Auton.MAX_SPEED), 
+				Math.abs(Motors.rearLeft.get() * Auton.MAX_SPEED), 
+				Math.abs(Motors.rearRight.get() * Auton.MAX_SPEED)
+			);
+			return (Supplier<MecanumDriveWheelSpeeds>) Kinematics.mecanumDriveWheelSpeeds;
+		}
+
+		/**
+		 * Sets the voltages to each of the motors using a MecanumDriveMotorVoltages
+		 */
+		public static void driveVolts(MecanumDriveMotorVoltages inVolts) {
+			Motors.frontLeft.setVoltage(inVolts.frontLeftVoltage);
+			Motors.frontRight.setVoltage(inVolts.frontRightVoltage);
+			Motors.rearLeft.setVoltage(inVolts.rearLeftVoltage);
+			Motors.rearRight.setVoltage(inVolts.rearRightVoltage);
+		} 
 	}
 
 	public DriveTrain() {
@@ -164,13 +192,6 @@ public final class DriveTrain extends SubsystemBase {
 				Encoders.frontRight.getDistance(),
 				Encoders.rearLeft.getDistance(),
 				Encoders.rearRight.getDistance()
-		);
-
-		Kinematics.mecanumDriveWheelSpeeds = new MecanumDriveWheelSpeeds(
-				Motors.frontLeft.get(), 
-				Motors.frontRight.get(), 
-				Motors.rearLeft.get(), 
-				Motors.rearRight.get()
 		);
 
 		// -----------------------------------------------------------

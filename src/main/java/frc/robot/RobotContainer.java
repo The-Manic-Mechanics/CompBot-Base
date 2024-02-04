@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -129,7 +130,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {   
-   // TODO: Fill this in
    mecanumController = new MecanumControllerCommand(
       autonPathChooser.getSelected(), 
       ComplexAuton.getPoseDual(), 
@@ -145,10 +145,11 @@ public class RobotContainer {
       new PIDController(WheelVelocities.FL_CONTROLLER_P, WheelVelocities.FL_CONTROLLER_I, WheelVelocities.FL_CONTROLLER_D), 
       new PIDController(WheelVelocities.RL_CONTROLLER_P, WheelVelocities.RL_CONTROLLER_I, WheelVelocities.RL_CONTROLLER_D), 
       new PIDController(WheelVelocities.FR_CONTROLLER_P, WheelVelocities.FR_CONTROLLER_I, WheelVelocities.FR_CONTROLLER_D), 
-      new PIDController(WheelVelocities.RR_CONTROLLER_P, WheelVelocities.RR_CONTROLLER_I, WheelVelocities.RR_CONTROLLER_D), , 
-      null, 
-      null, 
+      new PIDController(WheelVelocities.RR_CONTROLLER_P, WheelVelocities.RR_CONTROLLER_I, WheelVelocities.RR_CONTROLLER_D), 
+      DriveTrain.Kinematics.getWheelSpeeds(), 
+      DriveTrain.Kinematics :: driveVolts, 
       sysDriveTrain, sysComplexAuton);
-    return null;
+    // FIXME: Unsure if we're supposed to run execute() on the mecanumController or schedule() it
+    return Commands.runOnce(() -> mecanumController.execute(), sysDriveTrain, sysComplexAuton);
   }
 }

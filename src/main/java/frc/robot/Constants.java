@@ -212,7 +212,7 @@ public final class Constants {
 		 * The max forward speed of the robot in meters per second.
 		 */
 		public static final double
-		MAX_SPEED = .3, 
+		MAX_SPEED = 7.58952, 
 		/**
 		 * The prefered velocity of the robot in autonomous mode in meters per second.
 		 */
@@ -229,7 +229,7 @@ public final class Constants {
 		/**
 		 * The maximum acceleration of the robot in meters per second
 		 */
-		MAX_ACCEL = 0;
+		MAX_ACCEL = 9.8;
 
 		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
 
