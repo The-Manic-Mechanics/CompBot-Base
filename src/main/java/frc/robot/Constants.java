@@ -5,9 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ComplexAuton;
+import java.io.IOException;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -229,8 +233,24 @@ public final class Constants {
 
 		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
 
+		/**
+		 * The file paths to all Pathweaver paths in the project
+		 */
+		public static final String [] ALL_PATHS = {"paths/DriveStraight.wpilib.json"};
+
+		/**
+		 * All paths in the project loaded as usable Trajectories
+		 */
+		public static Trajectory [] trajectories; {
+		try {
+			trajectories = ComplexAuton.loadPaths(Auton.ALL_PATHS);
+		} catch (IOException ex) {
+			DriverStation.reportError("Failed to load trajectories", ex.getStackTrace());
+		}
+		}
+
 		public static class PIDControllers {
-			public static class HolonomicController {
+			public static class Holonomic {
 				public static final double
 				/**
 				 * The P constant for the holonomicController's X (Field Relative) correction PID loop
@@ -271,6 +291,62 @@ public final class Constants {
 				 */
 				THETACONTROLLER_D = 0;
 
+			}
+
+			public static class WheelVelocities {
+				public static final double
+				/**
+				 * The P constant for the individual motor velocity PID controller of the frontLeft motor
+				 */
+				FL_CONTROLLER_P = 1,
+				/**
+				 * The I constant for the individual motor velocity PID controller of the frontLeft motor
+				 */
+				FL_CONTROLLER_I = 0,
+				/**
+				 * The D constant for the individual motor velocity PID controller of the frontLeft motor
+				 */
+				FL_CONTROLLER_D = 0,
+
+				/**
+				 * The P constant for the individual motor velocity PID controller of the frontRight motor
+				 */
+				FR_CONTROLLER_P = 1,
+				/**
+				 * The I constant for the individual motor velocity PID controller of the frontRight motor
+				 */
+				FR_CONTROLLER_I = 0,
+				/**
+				 * The D constant for the individual motor velocity PID controller of the frontRight motor
+				 */
+				FR_CONTROLLER_D = 0,
+
+				/**
+				 * The P constant for the individual motor velocity PID controller of the rearLeft motor
+				 */
+				RL_CONTROLLER_P = 1,
+				/**
+				 * The I constant for the individual motor velocity PID controller of the rearLeft motor
+				 */
+				RL_CONTROLLER_I = 0,
+				/**
+				 * The D constant for the individual motor velocity PID controller of the rearLeft motor
+				 */
+				RL_CONTROLLER_D = 0,
+
+				/**
+				 * The P constant for the individual motor velocity PID controller of the rearRight motor
+				 */
+				RR_CONTROLLER_P = 1,
+				/**
+				 * The I constant for the individual motor velocity PID controller of the rearRight motor
+				 */
+				RR_CONTROLLER_I = 0,
+				/**
+				 * The D constant for the individual motor velocity PID controller of the rearRight motor
+				 */
+				RR_CONTROLLER_D = 0;
+				
 			}
 		}
 	}

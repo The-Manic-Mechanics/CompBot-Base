@@ -38,11 +38,7 @@ public final class LimeLight extends SubsystemBase {
              * See <a href="https://docs.limelightvision.io/en/latest/networktables_api.html?highlight=api">...</a>
              */
 	        distanceFromTarget,
-			/**
-			 * Current position of the robot on the field in (X, Y, Z)
-			 * See <a href="https://docs.limelightvision.io/en/latest/networktables_api.html?highlight=api">...</a>
-			 */
-			botPose,
+
 			/**
     		 * The vertical offset from the limelight crosshair to the target
     		 * See <a href="https://docs.limelightvision.io/en/latest/networktables_api.html?highlight=api">...</a>
@@ -68,8 +64,6 @@ public final class LimeLight extends SubsystemBase {
 		offsetFromCrosshairV = limeLightTable.getEntry("ty").getDouble(0.0);
 		distanceFromTarget = limeLightTable.getEntry("ta").getDouble(0.0);
 		tagID = limeLightTable.getEntry("tid").getDouble(0.0);
-		botPose = limeLightTable.getEntry("botpose").getDouble(0.0);
-
 		// Getting the botpose from the limelight based off of the apriltag 
 		botPoseArray = limeLightTable.getEntry("botpose").getDoubleArray(new double[6]);
 

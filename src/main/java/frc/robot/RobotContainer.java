@@ -4,16 +4,25 @@
 
 package frc.robot;
 
+import frc.robot.Constants.Auton;
 import frc.robot.Constants.Controllers;
+import frc.robot.Constants.Auton.PIDControllers.Holonomic;
+import frc.robot.Constants.Auton.PIDControllers.WheelVelocities;
 import frc.robot.commands.ClankAuton;
 import frc.robot.commands.DriveMecanum;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ComplexAuton;
 import frc.robot.subsystems.Gyroscope;
 import frc.robot.subsystems.Solenoids;
-
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -27,12 +36,29 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
+  // -----------------------------------------
+  // Subsystems
+  // -----------------------------------------
+
   private final Solenoids sysSolenoids = new Solenoids();
   private final Gyroscope sysGyroscope = new Gyroscope();
   private final DriveTrain sysDriveTrain = new DriveTrain();
   private final ComplexAuton sysComplexAuton = new ComplexAuton();
+
+  // --------------------------------------------------------------------
+
+  // -----------------------------------------
+  // Command
+  // -----------------------------------------
+
   private final DriveMecanum cmdDriveMecanum = new DriveMecanum(sysDriveTrain);
   private final ClankAuton cmdClankAuton = new ClankAuton(sysDriveTrain, sysComplexAuton);
+
+  // ---------------------------------------------------------------------
+
+  // -----------------------------------------
+  // Controllers
+  // -----------------------------------------
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static final XboxController driverOneController = new XboxController(Controllers.DRIVERONE_PORT);
@@ -48,6 +74,24 @@ public class RobotContainer {
     driverSecondRghtBump = new JoystickButton(driverTwoController, 6);
   // ---------------------------------------------------------------------------------
 
+  // --------------------------------------------
+  // Auton controller
+  // --------------------------------------------
+
+  /**
+   * Controller for following autonomous paths with mecanum, why didn't these fuckers tell me about this.  
+   */
+  MecanumControllerCommand mecanumController;
+
+  // ----------------------------------------------------------------------------------
+
+  // --------------------------------------------
+  // SmartDashboard
+  // --------------------------------------------
+
+  SendableChooser<Trajectory> autonPathChooser;
+
+  // ----------------------------------------------------------------------------------
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // The robot's subsystems and commands are defined here...
@@ -56,9 +100,15 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-  // -------------------------
-  // SmartDashboard
-  // -------------------------
+    // -------------------------
+    // SmartDashboard
+    // -------------------------
+
+    autonPathChooser = new SendableChooser<Trajectory>();
+    autonPathChooser.setDefaultOption("None", null);
+    autonPathChooser.addOption("Drive Straight", Auton.trajectories[0]);
+  
+    SmartDashboard.putData(autonPathChooser);
   }
 
   /**
@@ -78,8 +128,27 @@ public class RobotContainer {
     // The DriveMecanum command periodically checks the controller's joysticks for acceleration.
   }
 
-  public Command getAutonomousCommand() {
-        // Create a path following command using AutoBuilder. This will also trigger event markers.
-        return cmdClankAuton;
+  public Command getAutonomousCommand() {   
+   // TODO: Fill this in
+   mecanumController = new MecanumControllerCommand(
+      autonPathChooser.getSelected(), 
+      ComplexAuton.getPoseDual(), 
+      ComplexAuton.feedforward, 
+      DriveTrain.Kinematics.mecanumDriveKinematics, 
+      // X controller (Field Space)
+      new PIDController(Holonomic.XCONTROLLER_P, Holonomic.XCONTROLLER_I, Holonomic.XCONTROLLER_D), 
+      // Y controller (Field Space)
+      new PIDController(Holonomic.YCONTROLLER_P, Holonomic.YCONTROLLER_I, Holonomic.YCONTROLLER_D),  
+      new ProfiledPIDController(Holonomic.THETACONTROLLER_P, Holonomic.THETACONTROLLER_I, Holonomic.THETACONTROLLER_D,
+        new TrapezoidProfile.Constraints(Auton.MAX_SPEED, Auton.MAX_ACCEL)), 
+      Auton.MAX_SPEED, 
+      new PIDController(WheelVelocities.FL_CONTROLLER_P, WheelVelocities.FL_CONTROLLER_I, WheelVelocities.FL_CONTROLLER_D), 
+      new PIDController(WheelVelocities.RL_CONTROLLER_P, WheelVelocities.RL_CONTROLLER_I, WheelVelocities.RL_CONTROLLER_D), 
+      new PIDController(WheelVelocities.FR_CONTROLLER_P, WheelVelocities.FR_CONTROLLER_I, WheelVelocities.FR_CONTROLLER_D), 
+      new PIDController(WheelVelocities.RR_CONTROLLER_P, WheelVelocities.RR_CONTROLLER_I, WheelVelocities.RR_CONTROLLER_D), , 
+      null, 
+      null, 
+      sysDriveTrain, sysComplexAuton);
+    return null;
   }
 }

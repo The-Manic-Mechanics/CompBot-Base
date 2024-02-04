@@ -7,34 +7,47 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Auton;
-import frc.robot.Constants.Auton.PIDControllers.HolonomicController;
+import frc.robot.Constants.Auton.PIDControllers.Holonomic;
+import java.io.IOException;
+import java.util.function.Supplier;
+import edu.wpi.first.math.geometry.Pose2d;
+
 /**
  * PathPlanner implementation auton
  */
 public class ComplexAuton extends SubsystemBase {
-  SendableChooser<Command> autoRoutineChooser;
   /**
     * The auton holonomic controller for -+use with following PathWeaver trajectories
     */
   HolonomicDriveController holoController;
+
+  public static SimpleMotorFeedforward feedforward;
+  
   /** Creates a new ComplexAuton. */
   public ComplexAuton() {
+    // FIXME: What does this acutally do?
     holoController = new HolonomicDriveController(
         // Correction along the field X axis
-        new PIDController(HolonomicController.XCONTROLLER_P, HolonomicController.XCONTROLLER_I, HolonomicController.XCONTROLLER_D),
+        new PIDController(Holonomic.XCONTROLLER_P, Holonomic.XCONTROLLER_I, Holonomic.XCONTROLLER_D),
         // Correction along the field Y axis 
-        new PIDController(HolonomicController.YCONTROLLER_P, HolonomicController.YCONTROLLER_I, HolonomicController.YCONTROLLER_D),
+        new PIDController(Holonomic.YCONTROLLER_P, Holonomic.YCONTROLLER_I, Holonomic.YCONTROLLER_D),
         // For rotation correction 
-        new ProfiledPIDController(HolonomicController.THETACONTROLLER_P, HolonomicController.THETACONTROLLER_I, HolonomicController.THETACONTROLLER_D,
+        new ProfiledPIDController(Holonomic.THETACONTROLLER_P, Holonomic.THETACONTROLLER_I, Holonomic.THETACONTROLLER_D,
         new TrapezoidProfile.Constraints(Auton.MAX_SPEED, Auton.MAX_ACCEL))
-    );
+    );  
+
+    // TODO: Unsure on what this does exactly but I know we can get the values from SysID 
+    feedforward = new SimpleMotorFeedforward(0, 0, 0);
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
@@ -67,6 +80,38 @@ public class ComplexAuton extends SubsystemBase {
       zSpeed = -wheelSpeeds.frontRightMetersPerSecond;
     
     DriveTrain.mecanum.driveCartesian(xSpeed, ySpeed, zSpeed);
+  }
+
+  // FIXME: May overload command execution
+
+  /**
+   * Loads the inputted paths from their files into variables
+   * @param paths The paths to the trajectories in the form "paths/YourPath.wpilib.json"
+   * @return The an array containing the loaded trajectories in the same order that they were loaded
+   */
+  public static Trajectory[] loadPaths(String[] paths) throws IOException {
+    Trajectory[] trajectories = new Trajectory[paths.length];
+    for (int i = 0; i != paths.length; i++) {
+      try {
+        trajectories[i] = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve(paths[i]));
+      } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + paths[i], ex.getStackTrace());
+        throw ex;
+      }
+    }
+    return trajectories;
+  }
+
+  // FIXME: May not work, be careful
+  /**
+   * Gets the pose of the robot using an apriltag if avalible, and uses odemetry if not
+   * @return The bot pose as a Pose2d based off the nearest apriltag, otherwise use the odometry
+   */
+  @SuppressWarnings("unchecked")
+  public static Supplier<Pose2d> getPoseDual() {
+    if (LimeLight.tagID != 0)
+      return (Supplier<Pose2d>)LimeLight.getBotPose2d();
+    return (Supplier<Pose2d>)DriveTrain.Odometry.mecanumDriveOdometry.getPoseMeters();
   }
 
   @Override

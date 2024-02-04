@@ -76,6 +76,7 @@ public final class DriveTrain extends SubsystemBase {
 		 */
 		public static MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds;
 
+		@SuppressWarnings ("unchecked")
 		public static Supplier<ChassisSpeeds> getMecanumChassisSpeeds() {
 			return (Supplier<ChassisSpeeds>)DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds);
 		}
@@ -195,7 +196,7 @@ public final class DriveTrain extends SubsystemBase {
 
     @Override
 	public void periodic() {
-		// This method will be csalled once per scheduler run
+		// This method will be called once per scheduler run
 		Odometry.mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions);
 
 		SmartDashboard.putNumber("X Value", RobotContainer.driverOneController.getLeftX());
