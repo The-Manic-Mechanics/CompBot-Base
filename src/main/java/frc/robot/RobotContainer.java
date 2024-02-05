@@ -106,8 +106,9 @@ public class RobotContainer {
     // -------------------------
 
     autonPathChooser = new SendableChooser<Trajectory>();
-    autonPathChooser.setDefaultOption("None", null);
-    autonPathChooser.addOption("Drive Straight", Auton.trajectories[0]);
+    autonPathChooser.addOption("None", null);
+    Constants.Auton.LoadTrajectoriesFromPaths();
+    autonPathChooser.setDefaultOption("Drive Straight", Auton.trajectories[0]);
   
     SmartDashboard.putData(autonPathChooser);
   }

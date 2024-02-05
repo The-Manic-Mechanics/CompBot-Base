@@ -49,14 +49,14 @@ public final class DriveTrain extends SubsystemBase {
 		*/
 		public static MecanumDriveOdometry mecanumDriveOdometry;
 
-		@SuppressWarnings("unchecked")
-		public static Consumer<Pose2d> resetDriveOdometry() {
-			// if (LimeLight.tagID == 0)
-				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
-			// else
-				// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
-			return (Consumer<Pose2d>)new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d());
-		}
+		// @SuppressWarnings("unchecked")
+		// public static Consumer<Pose2d> resetDriveOdometry() {
+		// 	// if (LimeLight.tagID == 0)
+		// 		mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
+		// 	// else
+		// 		// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
+		// 	return (Consumer<Pose2d>)() -> {new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d())};
+		// }
 		
 	}
 
@@ -70,17 +70,12 @@ public final class DriveTrain extends SubsystemBase {
 		*/
 		private static MecanumDriveWheelPositions wheelPositions;
 		/**
-		 * The current speed of the robot as a ChasisSpeeds
-		 */
-		private static ChassisSpeeds robotSpeed;
-		/**
 		 * Stores the speed of the wheels
 		 */
 		public static MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds;
 
-		@SuppressWarnings ("unchecked")
 		public static Supplier<ChassisSpeeds> getMecanumChassisSpeeds() {
-			return (Supplier<ChassisSpeeds>)DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds);
+			return (Supplier<ChassisSpeeds>)() -> DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds);
 		}
 
 		/**
@@ -98,7 +93,6 @@ public final class DriveTrain extends SubsystemBase {
 		 * Gets the drivetrain wheelspeeds
 		 * @return A mecan
 		 */
-		@SuppressWarnings ("unchecked")
 		// FIXME: Not sure if this should be negative or not
 		public static Supplier<MecanumDriveWheelSpeeds> getWheelSpeeds() {
 			Kinematics.mecanumDriveWheelSpeeds = new MecanumDriveWheelSpeeds(
@@ -107,7 +101,7 @@ public final class DriveTrain extends SubsystemBase {
 				Math.abs(Motors.rearLeft.get() * Auton.MAX_SPEED), 
 				Math.abs(Motors.rearRight.get() * Auton.MAX_SPEED)
 			);
-			return (Supplier<MecanumDriveWheelSpeeds>) Kinematics.mecanumDriveWheelSpeeds;
+			return (Supplier<MecanumDriveWheelSpeeds>)() -> Kinematics.mecanumDriveWheelSpeeds;
 		}
 
 		/**

@@ -93,25 +93,25 @@ public class ComplexAuton extends SubsystemBase {
     Trajectory[] trajectories = new Trajectory[paths.length];
     for (int i = 0; i != paths.length; i++) {
       try {
+        DriverStation.reportError("Trajectory Path:" + Filesystem.getDeployDirectory().toPath().resolve(paths[i]).toString(), false);
         trajectories[i] = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve(paths[i]));
+        DriverStation.reportError("Trajectory Loaded. Data at i0: " + trajectories[0].getTotalTimeSeconds(), false);
       } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + paths[i], ex.getStackTrace());
+        DriverStation.reportError("Unable to %open trajectory: " + paths[i], ex.getStackTrace());
         throw ex;
       }
     }
     return trajectories;
   }
 
-  // FIXME: May not work, be careful
   /**
    * Gets the pose of the robot using an apriltag if avalible, and uses odemetry if not
    * @return The bot pose as a Pose2d based off the nearest apriltag, otherwise use the odometry
    */
-  @SuppressWarnings("unchecked")
   public static Supplier<Pose2d> getPoseDual() {
     if (LimeLight.tagID != 0)
-      return (Supplier<Pose2d>)LimeLight.getBotPose2d();
-    return (Supplier<Pose2d>)DriveTrain.Odometry.mecanumDriveOdometry.getPoseMeters();
+      return (Supplier<Pose2d>)() -> LimeLight.getBotPose2d();
+      return (Supplier<Pose2d>)() -> DriveTrain.Odometry.mecanumDriveOdometry.getPoseMeters();
   }
 
   @Override
