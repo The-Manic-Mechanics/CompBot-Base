@@ -11,16 +11,23 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.Auton.PIDControllers.Holonomic;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Supplier;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * PathPlanner implementation auton
@@ -47,7 +54,7 @@ public class ComplexAuton extends SubsystemBase {
     );  
 
     // TODO: Unsure on what this does exactly but I know we can get the values from SysID 
-    feedforward = new SimpleMotorFeedforward(0, 0, 0);
+    feedforward = new SimpleMotorFeedforward(0.1, 0.1, 0.1);
   }
 
   public void driveRobotRelative(ChassisSpeeds speeds) {
@@ -93,9 +100,9 @@ public class ComplexAuton extends SubsystemBase {
     Trajectory[] trajectories = new Trajectory[paths.length];
     for (int i = 0; i != paths.length; i++) {
       try {
-        DriverStation.reportError("Trajectory Path:" + Filesystem.getDeployDirectory().toPath().resolve(paths[i]).toString(), false);
-        trajectories[i] = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve(paths[i]));
-        DriverStation.reportError("Trajectory Loaded. Data at i0: " + trajectories[0].getTotalTimeSeconds(), false);
+        Path f_path = Filesystem.getDeployDirectory().toPath().resolve(paths[i]);
+        DriverStation.reportWarning("\n\n\n\nFILE PATH: " + f_path.toString() + "\n\n\n\n\n", true);
+        trajectories[i] = TrajectoryUtil.fromPathweaverJson(f_path);
       } catch (IOException ex) {
         DriverStation.reportError("Unable to %open trajectory: " + paths[i], ex.getStackTrace());
         throw ex;

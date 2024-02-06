@@ -235,7 +235,7 @@ public final class Constants {
 		/**
 		 * The file paths to all Pathweaver paths in the project
 		 */
-		public static final String [] ALL_PATHS = {"paths/DriveStraight.wpilib.json"};
+		public static final String [] ALL_PATHS_ORDER = {"output/Straight.wpilib.json"};
 
 		/**
 		 * All paths in the project loaded as usable Trajectories
@@ -244,7 +244,7 @@ public final class Constants {
 		
 		public static void LoadTrajectoriesFromPaths() {
 		try {
-			trajectories = ComplexAuton.loadPaths(Auton.ALL_PATHS);
+			trajectories = ComplexAuton.loadPaths(Auton.ALL_PATHS_ORDER);
 		} catch (IOException ex) {
 			DriverStation.reportError("Failed to load trajectories", ex.getStackTrace());
 		}

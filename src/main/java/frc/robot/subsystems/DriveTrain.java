@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.DriveTrain.*;
-
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.can.*;
@@ -48,15 +46,25 @@ public final class DriveTrain extends SubsystemBase {
 		* Used for keeping track of the robot's position while it drives
 		*/
 		public static MecanumDriveOdometry mecanumDriveOdometry;
+		public static Pose2d resetDriveOdometry() {
+			// if (LimeLight.tagID == 0)
+				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
+			// else
+				// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
+			return new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d());
+		}
 
-		// @SuppressWarnings("unchecked")
-		// public static Consumer<Pose2d> resetDriveOdometry() {
-		// 	// if (LimeLight.tagID == 0)
-		// 		mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
-		// 	// else
-		// 		// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
-		// 	return (Consumer<Pose2d>)() -> {new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d())};
-		// }
+		/**
+		* Used for keeping track of the robot's position while it drives
+		* Sets the drive odometry to the values in the supplied Pose2d.
+		*/
+		public static Pose2d resetDriveOdometry(Pose2d pose) {
+			// if (LimeLight.tagID == 0)
+				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), pose);
+			// else
+				// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
+			return new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d());
+		}
 		
 	}
 
@@ -96,10 +104,10 @@ public final class DriveTrain extends SubsystemBase {
 		// FIXME: Not sure if this should be negative or not
 		public static Supplier<MecanumDriveWheelSpeeds> getWheelSpeeds() {
 			Kinematics.mecanumDriveWheelSpeeds = new MecanumDriveWheelSpeeds(
-				Math.abs(Motors.frontLeft.get() * Auton.MAX_SPEED), 
-				Math.abs(Motors.frontRight.get() * Auton.MAX_SPEED), 
-				Math.abs(Motors.rearLeft.get() * Auton.MAX_SPEED), 
-				Math.abs(Motors.rearRight.get() * Auton.MAX_SPEED)
+				Motors.frontLeft.get() * Auton.MAX_SPEED, 
+				Motors.frontRight.get() * Auton.MAX_SPEED, 
+				Motors.rearLeft.get() * Auton.MAX_SPEED, 
+				Motors.rearRight.get() * Auton.MAX_SPEED
 			);
 			return (Supplier<MecanumDriveWheelSpeeds>)() -> Kinematics.mecanumDriveWheelSpeeds;
 		}
