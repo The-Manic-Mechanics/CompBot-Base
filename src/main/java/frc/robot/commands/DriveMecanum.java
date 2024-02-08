@@ -41,7 +41,9 @@ public final class DriveMecanum extends Command {
 		moveSpeedX = -speedMultiplier * RobotContainer.driverOneController.getLeftY();
 		moveSpeedZ = -speedMultiplier * RobotContainer.driverOneController.getRightX();
 		// Put in controller inputs and drive the motors accordingly
-		DriveTrain.mecanum.driveCartesian(moveSpeedX, moveSpeedY, moveSpeedZ);
+		// DriveTrain.mecanum.driveCartesian(moveSpeedX, moveSpeedY, moveSpeedZ);
+
+		DriveTrain.Motors.motor.set(moveSpeedX);
 	}
 
 	@Override

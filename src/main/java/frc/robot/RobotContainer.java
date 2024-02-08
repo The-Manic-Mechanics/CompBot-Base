@@ -139,17 +139,10 @@ public class RobotContainer {
     // The DriveMecanum command periodically checks the controller's joysticks for acceleration.
   }
 
-  public Command getAutonomousCommand() {   
-    // Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-    //   // Start at the origin facing the +X direction
-    //   new Pose2d(0, 0, new Rotation2d(0)),
-    //   // Pass through these two interior waypoints, making an 's' curve path
-    //   List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    //   // End 3 meters straight ahead of where we started, facing forward
-    //   new Pose2d(3, 0, new Rotation2d(0)),
-    //   new TrajectoryConfig(
-    //     Constants.Auton.MAX_SPEED,
-    //     Constants.Auton.MAX_ACCEL));
+  public Command getAutonomousCommand() { 
+    // TODO: deploy folder fs on bot not seeing our copy, can't load files
+
+    
    mecanumController = new MecanumControllerCommand(
       autonPathChooser.getSelected(), 
       ComplexAuton.getPoseDual(), 
@@ -169,10 +162,23 @@ public class RobotContainer {
       DriveTrain.Kinematics.getWheelSpeeds(), 
       DriveTrain.Kinematics::driveVolts, 
       sysDriveTrain, sysComplexAuton);
-    // FIXME: Unsure if we're supposed to run execute() on the mecanumController or schedule() it
+
+
     return Commands.sequence(
-        new InstantCommand(() -> DriveTrain.Odometry.resetDriveOdometry(autonPathChooser.getSelected().getInitialPose())),
+        new InstantCommand(() -> {
+          DriveTrain.Odometry.resetDriveOdometry(autonPathChooser.getSelected().getInitialPose());
+          DriveTrain.Motors.frontLeft.setSafetyEnabled(false);
+          DriveTrain.Motors.frontRight.setSafetyEnabled(false);
+          DriveTrain.Motors.rearLeft.setSafetyEnabled(false);
+          DriveTrain.Motors.rearRight.setSafetyEnabled(false);
+        }),
         mecanumController,
-        new InstantCommand(() -> DriveTrain.mecanum.driveCartesian(0, 0, 0)));
+        new InstantCommand(() -> {
+          DriveTrain.mecanum.driveCartesian(0, 0, 0);
+          DriveTrain.Motors.frontLeft.setSafetyEnabled(true);
+          DriveTrain.Motors.frontRight.setSafetyEnabled(true);
+          DriveTrain.Motors.rearLeft.setSafetyEnabled(true);
+          DriveTrain.Motors.rearRight.setSafetyEnabled(true);
+        }));
   }
 }

@@ -228,7 +228,7 @@ public final class Constants {
 		/**
 		 * The maximum acceleration of the robot in meters per second
 		 */
-		MAX_ACCEL = 9.8;
+		MAX_ACCEL = 7;//9.8; (what)
 
 		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
 

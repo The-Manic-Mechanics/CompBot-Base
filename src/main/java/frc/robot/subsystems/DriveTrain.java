@@ -34,7 +34,8 @@ public final class DriveTrain extends SubsystemBase {
 	public static MecanumDrive mecanum;
 
 	public static class Motors {
-		public static WPI_VictorSPX frontLeft, frontRight, rearLeft, rearRight;
+		// FIXME: Extra motor defined for testing, remove this
+		public static WPI_VictorSPX frontLeft, frontRight, rearLeft, rearRight, motor;
 	}
 
 	public static class Encoders {
@@ -133,6 +134,9 @@ public final class DriveTrain extends SubsystemBase {
 		Motors.frontRight = new WPI_VictorSPX(MotorPorts.FRONT_RIGHT);
 		Motors.rearLeft = new WPI_VictorSPX(MotorPorts.BACK_LEFT);
 		Motors.rearRight = new WPI_VictorSPX(MotorPorts.BACK_RIGHT);
+
+		// Motors.motor = new WPI_VictorSPX();
+
 
 		Motors.frontLeft.setInverted(true);
 		Motors.rearLeft.setInverted(true);

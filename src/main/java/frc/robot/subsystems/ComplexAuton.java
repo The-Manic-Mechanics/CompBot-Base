@@ -98,9 +98,16 @@ public class ComplexAuton extends SubsystemBase {
    */
   public static Trajectory[] loadPaths(String[] paths) throws IOException {
     Trajectory[] trajectories = new Trajectory[paths.length];
+    Path fs = Filesystem.getDeployDirectory().toPath();
+    DriverStation.reportWarning("\n\n\n\nDIR: " + fs.toAbsolutePath().toString() +  "\n\n\n\n", false);
     for (int i = 0; i != paths.length; i++) {
       try {
-        Path f_path = Filesystem.getDeployDirectory().toPath().resolve(paths[i]);
+        Path f_path = fs.resolve(paths[i]);
+        if (!f_path.toFile().isFile()) {
+          DriverStation.reportError("\n\n\n\n\nTRAJECTORY \"\n\n\n\n\n" + f_path.toAbsolutePath().toString() + "\" IS NOT REAL", false);
+        } else {
+          DriverStation.reportWarning("\n\n\n\nTRAJECTORY \"" + f_path.toAbsolutePath().toString() + "\" IS REAL", false);
+        }
         DriverStation.reportWarning("\n\n\n\nFILE PATH: " + f_path.toString() + "\n\n\n\n\n", true);
         trajectories[i] = TrajectoryUtil.fromPathweaverJson(f_path);
       } catch (IOException ex) {
