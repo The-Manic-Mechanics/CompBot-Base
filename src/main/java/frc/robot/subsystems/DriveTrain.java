@@ -47,24 +47,13 @@ public final class DriveTrain extends SubsystemBase {
 		* Used for keeping track of the robot's position while it drives
 		*/
 		public static MecanumDriveOdometry mecanumDriveOdometry;
-		public static Pose2d resetDriveOdometry() {
-			// if (LimeLight.tagID == 0)
-				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), mecanumDriveOdometry.getPoseMeters());
-			// else
-				// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
-			return new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d());
-		}
 
 		/**
-		* Used for keeping track of the robot's position while it drives
 		* Sets the drive odometry to the values in the supplied Pose2d.
+		* @param pose The pose to reset the odometry to 
 		*/
-		public static Pose2d resetDriveOdometry(Pose2d pose) {
-			// if (LimeLight.tagID == 0)
-				mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), pose);
-			// else
-				// mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), LimeLight.getBotPose2d());
-			return new Pose2d(mecanumDriveOdometry.getPoseMeters().getX(), mecanumDriveOdometry.getPoseMeters().getY(), Gyroscope.sensor.getRotation2d());
+		public static void resetDriveOdometry(Pose2d pose) {
+			mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), pose);
 		}
 		
 	}
@@ -200,21 +189,13 @@ public final class DriveTrain extends SubsystemBase {
 				Encoders.rearRight.getDistance()
 		);
 
-		// -----------------------------------------------------------
-
-		// ----------------------------
-		// Limelight Pose
-		// ----------------------------
-
-		// double[] currentPose = LimeLight.botPoseArray;
-
-		Pose2d initPose = new Pose2d(0,0/*currentPose[1], currentPose[2]*/, Gyroscope.sensor.getRotation2d());
-
 		// ------------------------------------------------------------------
 
-		// -----------------------------
+		// ---------------------------
 		// Odometry
-		// -----------------------------
+		// ---------------------------
+
+		Pose2d initPose = new Pose2d(RobotContainer.autonPathChooser.getSelected().getInitialPose().getX(), RobotContainer.autonPathChooser.getSelected().getInitialPose().getY(), Gyroscope.sensor.getRotation2d());
 
 		Odometry.mecanumDriveOdometry = new MecanumDriveOdometry(Kinematics.mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, initPose);
 	
@@ -224,7 +205,12 @@ public final class DriveTrain extends SubsystemBase {
     @Override
 	public void periodic() {
 		// This method will be called once per scheduler run
+		Kinematics.wheelPositions = Kinematics.getWheelPositions();
+
 		Odometry.mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions);
+
+		if (LimeLight.tagID != 0)
+			Odometry.mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, LimeLight.getBotPose2d());
 
 		SmartDashboard.putNumber("X Value", RobotContainer.driverOneController.getLeftX());
 		SmartDashboard.putNumber("Y Value", RobotContainer.driverOneController.getLeftY());

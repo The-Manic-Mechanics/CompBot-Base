@@ -11,11 +11,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,11 +20,8 @@ import frc.robot.Constants.Auton;
 import frc.robot.Constants.Auton.PIDControllers.Holonomic;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.function.Supplier;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * PathPlanner implementation auton
@@ -125,7 +119,7 @@ public class ComplexAuton extends SubsystemBase {
   public static Supplier<Pose2d> getPoseDual() {
     if (LimeLight.tagID != 0)
       return (Supplier<Pose2d>)() -> LimeLight.getBotPose2d();
-      return (Supplier<Pose2d>)() -> DriveTrain.Odometry.mecanumDriveOdometry.getPoseMeters();
+    return (Supplier<Pose2d>)() -> DriveTrain.Odometry.mecanumDriveOdometry.getPoseMeters();
   }
 
   @Override

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -11,6 +12,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ComplexAuton;
+import frc.robot.subsystems.LimeLight;
+
 import java.io.IOException;
 
 /**
@@ -36,7 +39,7 @@ public final class Constants {
             DRIVERTWO_PORT = 1;
 	}
 	
-	public static class LimelightMounting {
+	public static class LimeLightMounting {
 	    public static final double
 	         /**
 			  * TODO: Change accordingly.
@@ -243,11 +246,11 @@ public final class Constants {
 		public static Trajectory [] trajectories; 
 		
 		public static void LoadTrajectoriesFromPaths() {
-		try {
-			trajectories = ComplexAuton.loadPaths(Auton.ALL_PATHS_ORDER);
-		} catch (IOException ex) {
-			DriverStation.reportError("Failed to load trajectories", ex.getStackTrace());
-		}
+			try {
+				trajectories = ComplexAuton.loadPaths(Auton.ALL_PATHS_ORDER);
+			} catch (IOException ex) {
+				DriverStation.reportError("Failed to load trajectories", ex.getStackTrace());
+			}
 		}
 
 		public static class PIDControllers {
