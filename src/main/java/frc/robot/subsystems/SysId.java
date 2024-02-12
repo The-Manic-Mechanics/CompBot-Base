@@ -4,11 +4,16 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Consumer;
+
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain.Motors;
 
 public class SysId extends SubsystemBase {
@@ -40,5 +45,16 @@ public class SysId extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (RobotContainer.driverTwoController.getAButton() == true)
+      CommandScheduler.getInstance().schedule(this.sysIdQuasistatic(Direction.kReverse));
+
+    if (RobotContainer.driverTwoController.getYButton() == true)
+      CommandScheduler.getInstance().schedule(this.sysIdQuasistatic(Direction.kForward));
+
+    if (RobotContainer.driverTwoController.getXButton() == true)
+      CommandScheduler.getInstance().schedule(this.sysIdDynamic(Direction.kForward));
+
+    if (RobotContainer.driverTwoController.getBButton() == true)
+      CommandScheduler.getInstance().schedule(this.sysIdDynamic(Direction.kReverse));
   }
 }

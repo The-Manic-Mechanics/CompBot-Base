@@ -34,8 +34,7 @@ public final class DriveTrain extends SubsystemBase {
 	public static MecanumDrive mecanum;
 
 	public static class Motors {
-		// FIXME: Extra motor defined for testing, remove this
-		public static WPI_VictorSPX frontLeft, frontRight, rearLeft, rearRight, motor;
+		public static WPI_VictorSPX frontLeft, frontRight, rearLeft, rearRight;
 	}
 
 	public static class Encoders {
@@ -89,7 +88,7 @@ public final class DriveTrain extends SubsystemBase {
 
 		/**
 		 * Gets the drivetrain wheelspeeds
-		 * @return A mecan
+		 * @return Clank
 		 */
 		// FIXME: Not sure if this should be negative or not
 		public static Supplier<MecanumDriveWheelSpeeds> getWheelSpeeds() {
@@ -123,9 +122,6 @@ public final class DriveTrain extends SubsystemBase {
 		Motors.frontRight = new WPI_VictorSPX(MotorPorts.FRONT_RIGHT);
 		Motors.rearLeft = new WPI_VictorSPX(MotorPorts.BACK_LEFT);
 		Motors.rearRight = new WPI_VictorSPX(MotorPorts.BACK_RIGHT);
-
-		// Motors.motor = new WPI_VictorSPX();
-
 
 		Motors.frontLeft.setInverted(true);
 		Motors.rearLeft.setInverted(true);
@@ -195,9 +191,7 @@ public final class DriveTrain extends SubsystemBase {
 		// Odometry
 		// ---------------------------
 
-		Pose2d initPose = new Pose2d(RobotContainer.autonPathChooser.getSelected().getInitialPose().getX(), RobotContainer.autonPathChooser.getSelected().getInitialPose().getY(), Gyroscope.sensor.getRotation2d());
-
-		Odometry.mecanumDriveOdometry = new MecanumDriveOdometry(Kinematics.mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, initPose);
+		Odometry.mecanumDriveOdometry = new MecanumDriveOdometry(Kinematics.mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, RobotContainer.initPose);
 	
 		// ------------------------------------------------------------------
 	}

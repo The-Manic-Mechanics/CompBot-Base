@@ -15,16 +15,10 @@ import frc.robot.subsystems.ComplexAuton;
 import frc.robot.subsystems.Gyroscope;
 import frc.robot.subsystems.Solenoids;
 
-import java.util.List;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -101,6 +95,8 @@ public class RobotContainer {
 
   public static SendableChooser<Trajectory> autonPathChooser;
 
+  public static Pose2d initPose;
+
   // ----------------------------------------------------------------------------------
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -120,6 +116,9 @@ public class RobotContainer {
     autonPathChooser.setDefaultOption("Drive Straight", Auton.trajectories[0]);
   
     SmartDashboard.putData(autonPathChooser);
+
+		initPose = new Pose2d(autonPathChooser.getSelected().getInitialPose().getX(), autonPathChooser.getSelected().getInitialPose().getY(), Gyroscope.sensor.getRotation2d());
+
   }
 
   /**
@@ -140,9 +139,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() { 
-    // TODO: deploy folder fs on bot not seeing our copy, can't load files
-
-    
    mecanumController = new MecanumControllerCommand(
       autonPathChooser.getSelected(), 
       ComplexAuton.getPoseDual(), 

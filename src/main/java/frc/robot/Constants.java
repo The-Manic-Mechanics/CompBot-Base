@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,8 +11,6 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ComplexAuton;
-import frc.robot.subsystems.LimeLight;
-
 import java.io.IOException;
 
 /**
@@ -253,6 +250,22 @@ public final class Constants {
 			}
 		}
 
+		public static class FeedForwardControllers {
+			public static final double
+			/**
+			 * The static gain (What the fuck does this mean)
+			 */
+			STATIC_GAIN = 0,
+			/**
+			 * The velocity gain (Again what the fuck?)
+			 */
+			VELOCITY_GAIN = 0,
+			/**
+			 * The acceleration gain (What	The		Fuck)
+			 */
+			ACCEL_GAIN = 0;
+		}
+		
 		public static class PIDControllers {
 			public static class Holonomic {
 				public static final double
