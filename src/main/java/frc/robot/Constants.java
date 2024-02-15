@@ -27,7 +27,11 @@ public final class Constants {
 			 * TODO: Change accordingly.
              * The port which the second driver's controller is connected to.
              */
-            DRIVERTWO_PORT = 1;
+            DRIVERTWO_PORT = 1,
+			/**
+			 * The port which the saxophone controller is connected to
+			 */
+			SAX_PORT = 2;
 	}
 	
 	public static class LimeLightOffsets {
@@ -172,35 +176,35 @@ public final class Constants {
 				 * Front Left Encoder Channel A
 				 */
 				public static final int
-					FRONT_LEFT_A = 0,
+					FRONT_LEFT_A = 30,
 					/**
 					 * Front Left Encoder Channel B
 					 */
-					FRONT_LEFT_B = 0,
+					FRONT_LEFT_B = 40,
 					/**
 					 * Front Right Encoder Channel A
 					 */
-					FRONT_RIGHT_A = 0,
+					FRONT_RIGHT_A = 50,
 					/**
 					 * Front Right Encoder Channel B
 					 */
-					FRONT_RIGHT_B = 0,
+					FRONT_RIGHT_B = 60,
 					/**
 					 * Back Left Encoder Channel A
 					 */
-					BACK_LEFT_A = 0,
+					BACK_LEFT_A = 70,
 					/**
 					 * Back Left Encoder Channel B
 					 */
-					BACK_LEFT_B = 0,
+					BACK_LEFT_B = 80,
 					/**
 					 * Back Right Encoder Channel A
 					 */
-					BACK_RIGHT_A = 0,
+					BACK_RIGHT_A = 90,
 					/**
 					 * Back Right Encoder Channel B
 					 */
-					BACK_RIGHT_B = 0;
+					BACK_RIGHT_B = 100;
 			}
 
 			public static class Intake {
@@ -214,6 +218,25 @@ public final class Constants {
 					 */
 					LIFT_B = 1;
 			}
+		}
+
+		public static class Intake {
+				public static int
+					/**
+					 * The intake lift encoder's distance per pulse
+					 */
+					LIFT_DISTANCE_PER_PULSE = 0,
+		
+					// TODO: Fill this in
+					/**
+					 * The lowest point the intake can be driven to
+					 */
+					INTAKE_LOWER_LIMIT = 0,
+		
+					/**
+					 * The highest point the intakev can be driven to
+					 */
+					INTAKE_HIGH_LIMIT = 0;
 		}
 	}
 
@@ -243,20 +266,16 @@ public final class Constants {
 		}
 	}
 
-	public static class Shooter {
+	public static class Intake {
 		public static double
 			/**
-			 * The speed that the shooter spins at (As a percentage)
+			 * The speed multiplier for the intake lift
 			 */
-			SPEED = 0;
-	}
-
-	public static class Intake {
-		public static int
+			LIFT_SPEED_MULTIPLIER = 1,
 			/**
-			 * The intake lift encoder's distance per pulse
+			 * The speed of the actual intake motors
 			 */
-			LIFT_DISTANCE_PER_PULSE = 0;
+			SPEED = 1;
 	}
 
 	public static class Climber {}
@@ -290,5 +309,12 @@ public final class Constants {
 		DISTANCE_PER_PULSE = 0;
 
 		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
+	}
+	public static class Shooter {
+		public static double
+			/**
+			 * The speed that the shooter spins at (As a percentage)
+			 */
+			SPEED = 1;
 	}
 }
