@@ -178,7 +178,7 @@ logs/
 .SysId/
 
 # DataLogTool leftover file
-datalogtool.json
+.DataLogTool/
 
 # Simulation GUI leftover file
 simgui-ds.json
