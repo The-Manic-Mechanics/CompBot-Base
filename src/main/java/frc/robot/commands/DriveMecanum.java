@@ -9,25 +9,25 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 /**
-* Used for driving the robot during teleop by taking in the controller values and giving them to the motors
-*/
+ * Used for driving the robot during teleop by taking in the controller values
+ * and giving them to the motors
+ */
 public final class DriveMecanum extends Command {
 
-	double 
-		/**
-		 * The robot's movement speed along the X axis (Usually stafing)
-		 */
-		moveSpeedX, 
-		/**
-		 * The robot's movement speed along the Y axis (Usually forward/backward)
-		 */
-		moveSpeedY, 
-		/**
-		 * The robot's movement speed along the Z axis (Rotation)
-		 */
-		moveSpeedZ,
-		speedMultiplier = 1;
-
+	double
+	/**
+	 * The robot's movement speed along the X axis (Usually stafing)
+	 */
+	moveSpeedX,
+			/**
+			 * The robot's movement speed along the Y axis (Usually forward/backward)
+			 */
+			moveSpeedY,
+			/**
+			 * The robot's movement speed along the Z axis (Rotation)
+			 */
+			moveSpeedZ,
+			speedMultiplier = 1;
 
 	public DriveMecanum(DriveTrain inSysDriveTrain) {
 		addRequirements(inSysDriveTrain);
@@ -36,17 +36,18 @@ public final class DriveMecanum extends Command {
 	@Override
 	public void execute() {
 		// TODO Driver prefrence specific, change accordingly
-		// Get the speeds from controller and multiply it by the speed 
+		// Get the speeds from controller and multiply it by the speed
 		moveSpeedY = speedMultiplier * RobotContainer.driverOneController.getLeftX();
 		moveSpeedX = -speedMultiplier * RobotContainer.driverOneController.getLeftY();
 		moveSpeedZ = -speedMultiplier * RobotContainer.driverOneController.getRightX();
+
 		// Put in controller inputs and drive the motors accordingly
 		DriveTrain.mecanum.driveCartesian(moveSpeedX, moveSpeedY, moveSpeedZ);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		// Set the motor speeds to zero on interupt
+		// Set the motor speeds to zero on an interrupt
 		DriveTrain.mecanum.driveCartesian(0, 0, 0);
 	}
 

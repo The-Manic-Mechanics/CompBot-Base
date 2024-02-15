@@ -9,23 +9,22 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Gyroscope;
 
 /**
-* Used to Drive the robot during auton via the inputed speeds and distance
-*/
-public final class DriveAuton extends Command {
-	double 
-		driveInches, 
-		speedX, 
-		speedY, 
-		speedZ;
+ * Used to Drive the robot during auton via the inputed speeds and distance
+ */
+public final class DriveAutonSimple extends Command {
+	double driveInches,
+			speedX,
+			speedY,
+			speedZ;
 	boolean isFinished;
 
-    /**
-     * @param inDriveInches The amount of inches to drive
-     * @param inSpeedX The speed to travel in the X direction
-     * @param inSpeedY The speed to travel in the Y direction
-     * @param inSpeedZ The speed to travel in the Z direction
-    */
-	public DriveAuton(
+	/**
+	 * @param inDriveInches The amount of inches to drive
+	 * @param inSpeedX      The speed to travel in the X direction
+	 * @param inSpeedY      The speed to travel in the Y direction
+	 * @param inSpeedZ      The speed to travel in the Z direction
+	 */
+	public DriveAutonSimple(
 			DriveTrain inSysDriveTrain, Gyroscope inSysGyroscope, double inDriveInches, double inSpeedX,
 			double inSpeedY, double inSpeedZ, boolean inFinishOnIncline) {
 		addRequirements(inSysDriveTrain, inSysGyroscope);
@@ -42,17 +41,18 @@ public final class DriveAuton extends Command {
 
 	@Override
 	public void execute() {
-		// Checking if the encoders have read the desired distance and stopping if they have
+		// Checking if the encoders have read the desired distance and stopping if they
+		// have
+
 		if ((DriveTrain.Encoders.frontLeft.getDistance() >= driveInches ||
 				(DriveTrain.Encoders.frontRight.getDistance() >= driveInches) ||
-				(DriveTrain.Encoders.backLeft.getDistance() >= driveInches) ||
-				(DriveTrain.Encoders.backRight.getDistance() >= driveInches))) {
+				(DriveTrain.Encoders.rearLeft.getDistance() >= driveInches) ||
+				(DriveTrain.Encoders.rearRight.getDistance() >= driveInches))) {
 			DriveTrain.mecanum.driveCartesian(0, 0, 0);
 			isFinished = true;
 		} else
 			DriveTrain.mecanum.driveCartesian(speedX, speedY, speedZ);
 	}
-
 
 	@Override
 	public void end(boolean interrupted) {
