@@ -9,22 +9,21 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Gyroscope;
 
 /**
-* Used to Drive the robot during auton via the inputed speeds and distance
-*/
+ * Used to Drive the robot during auton via the inputed speeds and distance
+ */
 public final class DriveAutonSimple extends Command {
-	double 
-		driveInches, 
-		speedX, 
-		speedY, 
-		speedZ;
+	double driveInches,
+			speedX,
+			speedY,
+			speedZ;
 	boolean isFinished;
 
-    /**
-     * @param inDriveInches The amount of inches to drive
-     * @param inSpeedX The speed to travel in the X direction
-     * @param inSpeedY The speed to travel in the Y direction
-     * @param inSpeedZ The speed to travel in the Z direction
-    */
+	/**
+	 * @param inDriveInches The amount of inches to drive
+	 * @param inSpeedX      The speed to travel in the X direction
+	 * @param inSpeedY      The speed to travel in the Y direction
+	 * @param inSpeedZ      The speed to travel in the Z direction
+	 */
 	public DriveAutonSimple(
 			DriveTrain inSysDriveTrain, Gyroscope inSysGyroscope, double inDriveInches, double inSpeedX,
 			double inSpeedY, double inSpeedZ, boolean inFinishOnIncline) {
@@ -42,8 +41,9 @@ public final class DriveAutonSimple extends Command {
 
 	@Override
 	public void execute() {
-		// Checking if the encoders have read the desired distance and stopping if they have
-		
+		// Checking if the encoders have read the desired distance and stopping if they
+		// have
+
 		if ((DriveTrain.Encoders.frontLeft.getDistance() >= driveInches ||
 				(DriveTrain.Encoders.frontRight.getDistance() >= driveInches) ||
 				(DriveTrain.Encoders.rearLeft.getDistance() >= driveInches) ||
@@ -53,7 +53,6 @@ public final class DriveAutonSimple extends Command {
 		} else
 			DriveTrain.mecanum.driveCartesian(speedX, speedY, speedZ);
 	}
-
 
 	@Override
 	public void end(boolean interrupted) {

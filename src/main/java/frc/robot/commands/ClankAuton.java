@@ -9,30 +9,12 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ComplexAuton;
 
 public class ClankAuton extends Command {
-  /** Creates a new ClankAuton. */
-  public ClankAuton(DriveTrain inSysDriveTrain, ComplexAuton inSysComplexAuton) {
-    addRequirements(inSysDriveTrain, inSysComplexAuton);
+	public ClankAuton(DriveTrain inSysDriveTrain, ComplexAuton inSysComplexAuton) {
+		addRequirements(inSysDriveTrain, inSysComplexAuton);
+	}
 
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -21,16 +20,9 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.DriveTrain.*;
 import java.util.function.Supplier;
-
 import com.ctre.phoenix.motorcontrol.can.*;
 
-/**
-* The subsystem that holds all the motors and functions pertaining to the DriveTrain
-*/
 public final class DriveTrain extends SubsystemBase {
-	/**
-	* Represents the MecanumDrive (Used for driving the robot)
-	*/
 	public static MecanumDrive mecanum;
 
 	public static class Motors {
@@ -43,43 +35,38 @@ public final class DriveTrain extends SubsystemBase {
 
 	public static class Odometry {
 		/**
-		* Used for keeping track of the robot's position while it drives
-		*/
+		 * Used for keeping track of the robot's position while it drives.
+		 */
 		public static MecanumDriveOdometry mecanumDriveOdometry;
 
 		/**
-		* Sets the drive odometry to the values in the supplied Pose2d.
-		* @param pose The pose to reset the odometry to 
-		*/
+		 * Sets the driveOdometry values to those supplied in the Pose2d.
+		 * 
+		 * @param pose The pose to set the driveOdometry values to.
+		 */
 		public static void resetDriveOdometry(Pose2d pose) {
-			mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.getWheelPositions(), pose);
+			mecanumDriveOdometry.resetPosition(
+					Gyroscope.sensor.getRotation2d(),
+					Kinematics.getWheelPositions(),
+					pose);
 		}
-		
+
 	}
 
 	public static class Kinematics {
-		/**
-		* Used for tracking how far the robot actually goes compared to what values are being inputed
-		*/
 		public static MecanumDriveKinematics mecanumDriveKinematics;
-		/**
-		* Stores the position of the wheels in robot space (Used for kinematics and odometry)
-		*/
 		private static MecanumDriveWheelPositions wheelPositions;
-		/**
-		 * Stores the speed of the wheels
-		 */
 		public static MecanumDriveWheelSpeeds mecanumDriveWheelSpeeds;
 
 		public static Supplier<ChassisSpeeds> getMecanumChassisSpeeds() {
-			return (Supplier<ChassisSpeeds>)() -> DriveTrain.Kinematics.mecanumDriveKinematics.toChassisSpeeds(DriveTrain.Kinematics.mecanumDriveWheelSpeeds);
+			return (Supplier<ChassisSpeeds>) () -> mecanumDriveKinematics.toChassisSpeeds(mecanumDriveWheelSpeeds);
 		}
 
 		/**
-		 * Gets the current mecanum wheel positions.
+		 * Gets the current wheel positions.
 		 *
-		 * @return <i>(type Mecanum`riveWheelPositions)</i> filled out
-		*/
+		 * @return A filled-out MecanumDriveWheelPositions instance.
+		 */
 		public static MecanumDriveWheelPositions getWheelPositions() {
 			return new MecanumDriveWheelPositions(
 					DriveTrain.Encoders.frontLeft.getDistance(), DriveTrain.Encoders.frontRight.getDistance(),
@@ -87,124 +74,96 @@ public final class DriveTrain extends SubsystemBase {
 		}
 
 		/**
-		 * Gets the drivetrain wheelspeeds
-		 * @return Clank
+		 * Supplies the DriveTrain wheel speeds.
+		 * 
+		 * @return A filled-out MecanumDriveWheelSpeeds instance.
 		 */
 		// FIXME: Not sure if this should be negative or not
 		public static Supplier<MecanumDriveWheelSpeeds> getWheelSpeeds() {
 			Kinematics.mecanumDriveWheelSpeeds = new MecanumDriveWheelSpeeds(
-				Motors.frontLeft.get() * Auton.MAX_SPEED, 
-				Motors.frontRight.get() * Auton.MAX_SPEED, 
-				Motors.rearLeft.get() * Auton.MAX_SPEED, 
-				Motors.rearRight.get() * Auton.MAX_SPEED
-			);
-			return (Supplier<MecanumDriveWheelSpeeds>)() -> Kinematics.mecanumDriveWheelSpeeds;
+					Motors.frontLeft.get() * Auton.MAX_SPEED,
+					Motors.frontRight.get() * Auton.MAX_SPEED,
+					Motors.rearLeft.get() * Auton.MAX_SPEED,
+					Motors.rearRight.get() * Auton.MAX_SPEED);
+			return (Supplier<MecanumDriveWheelSpeeds>) () -> Kinematics.mecanumDriveWheelSpeeds;
 		}
 
 		/**
-		 * Sets the voltages to each of the motors using a MecanumDriveMotorVoltages
+		 * Sets voltages to each of the motors.
+		 * 
+		 * @param inVolts The voltages to set each motor with.
 		 */
 		public static void driveVolts(MecanumDriveMotorVoltages inVolts) {
 			Motors.frontLeft.setVoltage(inVolts.frontLeftVoltage);
 			Motors.frontRight.setVoltage(inVolts.frontRightVoltage);
 			Motors.rearLeft.setVoltage(inVolts.rearLeftVoltage);
 			Motors.rearRight.setVoltage(inVolts.rearRightVoltage);
-		} 
+		}
 	}
 
 	public DriveTrain() {
-
-		// ----------------------------
-		// Motors
-		// ----------------------------
-
 		Motors.frontLeft = new WPI_VictorSPX(MotorPorts.FRONT_LEFT);
 		Motors.frontRight = new WPI_VictorSPX(MotorPorts.FRONT_RIGHT);
 		Motors.rearLeft = new WPI_VictorSPX(MotorPorts.BACK_LEFT);
 		Motors.rearRight = new WPI_VictorSPX(MotorPorts.BACK_RIGHT);
-
 		Motors.frontLeft.setInverted(true);
 		Motors.rearLeft.setInverted(true);
 
-		// ------------------------------------------------------------
-
-		// ----------------------------
-		// Encoders
-		// ----------------------------
+		mecanum = new MecanumDrive(
+				Motors.frontLeft,
+				Motors.rearLeft,
+				Motors.frontRight,
+				Motors.rearRight);
 
 		Encoders.frontLeft = new Encoder(
 				EncoderPorts.FRONT_LEFT_A,
-				EncoderPorts.FRONT_LEFT_B
-		);
-
+				EncoderPorts.FRONT_LEFT_B);
 		Encoders.frontRight = new Encoder(
 				EncoderPorts.FRONT_RIGHT_A,
-				EncoderPorts.FRONT_RIGHT_B
-		);
-
+				EncoderPorts.FRONT_RIGHT_B);
 		Encoders.rearLeft = new Encoder(
 				EncoderPorts.BACK_LEFT_A,
-				EncoderPorts.BACK_LEFT_B
-		);
-
+				EncoderPorts.BACK_LEFT_B);
 		Encoders.rearRight = new Encoder(
 				EncoderPorts.BACK_RIGHT_A,
-				EncoderPorts.BACK_RIGHT_B
-		);
+				EncoderPorts.BACK_RIGHT_B);
 		Encoders.frontLeft.setDistancePerPulse(Auton.DISTANCE_PER_PULSE);
 		Encoders.frontRight.setDistancePerPulse(Auton.DISTANCE_PER_PULSE);
 		Encoders.rearLeft.setDistancePerPulse(Auton.DISTANCE_PER_PULSE);
 		Encoders.rearRight.setDistancePerPulse(Auton.DISTANCE_PER_PULSE);
 
-		// ---------------------------------------------------------------
-
-		// ----------------------
-		// MecanumDrive object
-		// ----------------------
-
-		mecanum = new MecanumDrive(Motors.frontLeft, Motors.rearLeft, Motors.frontRight, Motors.rearRight);
-
-		// ------------------------------------------------------------
-
-		// --------------------------
-		// Kinematics
-		// --------------------------
-
-		Kinematics.mecanumDriveKinematics = new MecanumDriveKinematics
-	    (
+		Kinematics.mecanumDriveKinematics = new MecanumDriveKinematics(
 				new Translation2d(MotorLocations.FRONT_LEFT, MotorLocations.FRONT_LEFT),
 				new Translation2d(MotorLocations.FRONT_RIGHT, -1 * MotorLocations.FRONT_RIGHT),
 				new Translation2d(-1 * MotorLocations.BACK_LEFT, MotorLocations.BACK_LEFT),
-				new Translation2d(-1 * MotorLocations.BACK_RIGHT, -1 * MotorLocations.BACK_RIGHT)
-		);
+				new Translation2d(-1 * MotorLocations.BACK_RIGHT, -1 * MotorLocations.BACK_RIGHT));
 
 		Kinematics.wheelPositions = new MecanumDriveWheelPositions(
 				Encoders.frontLeft.getDistance(),
 				Encoders.frontRight.getDistance(),
 				Encoders.rearLeft.getDistance(),
-				Encoders.rearRight.getDistance()
-		);
+				Encoders.rearRight.getDistance());
 
-		// ------------------------------------------------------------------
-
-		// ---------------------------
-		// Odometry
-		// ---------------------------
-
-		Odometry.mecanumDriveOdometry = new MecanumDriveOdometry(Kinematics.mecanumDriveKinematics, Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, RobotContainer.initPose);
-	
-		// ------------------------------------------------------------------
+		Odometry.mecanumDriveOdometry = new MecanumDriveOdometry(
+				Kinematics.mecanumDriveKinematics,
+				Gyroscope.sensor.getRotation2d(),
+				Kinematics.wheelPositions,
+				RobotContainer.initPose);
 	}
 
-    @Override
+	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
 		Kinematics.wheelPositions = Kinematics.getWheelPositions();
 
-		Odometry.mecanumDriveOdometry.update(Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions);
+		Odometry.mecanumDriveOdometry.update(
+				Gyroscope.sensor.getRotation2d(),
+				Kinematics.wheelPositions);
 
 		if (LimeLight.tagID != 0)
-			Odometry.mecanumDriveOdometry.resetPosition(Gyroscope.sensor.getRotation2d(), Kinematics.wheelPositions, LimeLight.getBotPose2d());
+			Odometry.mecanumDriveOdometry.resetPosition(
+					Gyroscope.sensor.getRotation2d(),
+					Kinematics.wheelPositions,
+					LimeLight.getBotPose2d());
 
 		SmartDashboard.putNumber("X Value", RobotContainer.driverOneController.getLeftX());
 		SmartDashboard.putNumber("Y Value", RobotContainer.driverOneController.getLeftY());
