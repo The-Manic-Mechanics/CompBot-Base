@@ -47,13 +47,9 @@ public class RobotContainer {
 	public RobotContainer() {
 		// TODO: Change accordingly.
 		sysDriveTrain.setDefaultCommand(cmdDriveMecanum);
-		configureBindings();
 
 		// TODO: Change accordingly.
 		initPose = new Pose2d(0, 0, new Rotation2d(0, 0));
-	}
-
-	private void configureBindings() {
 	}
 
 	public Command getAutonomousCommand() {
