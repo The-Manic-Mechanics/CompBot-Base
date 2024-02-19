@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.subsystems.DriveTrain.Motors;
 
-// TODO: Complete and run this
+// TODO: Complete and characterize the robot, and then update the supplied constants.
 public class SysID extends SubsystemBase {
 	SysIdRoutine routine;
 
 	public SysID(DriveTrain sysDriveTrain) {
-		// FIXME: Default config, configure this
+		// FIXME: Default configuration, configure this.
 		routine = new SysIdRoutine(
 				new SysIdRoutine.Config(),
 				new SysIdRoutine.Mechanism(this::driveVoltage, null, sysDriveTrain));
@@ -39,6 +39,8 @@ public class SysID extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		// Uncomment to bind tests to (secondary) controller buttons.
+
 		// if (RobotContainer.driverTwoController.getAButton() == true)
 		// 	CommandScheduler.getInstance().schedule(this.sysIdQuasistatic(Direction.kReverse));
 		// if (RobotContainer.driverTwoController.getYButton() == true)

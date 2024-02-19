@@ -4,379 +4,316 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ComplexAuton;
-import java.io.IOException;
 
 public final class Constants {
-	// FIXME: IntelliSense comments aren't appearing as intended
 	public static class Controllers {
 		/**
 		 * TODO: Change accordingly.
 		 * The port which the first driver's controller is connected to.
 		 */
-		public static final int DRIVERONE_PORT = 0,
-				/**
-				 * TODO: Change accordingly.
-				 * The port which the second driver's controller is connected to.
-				 */
-				DRIVERTWO_PORT = 1;
+		public static final int DRIVERONE_PORT = 0;
+		/**
+		 * TODO: Change accordingly.
+		 * The port which the second driver's controller is connected to.
+		 */
+		public static final int DRIVERTWO_PORT = 0;
 	}
 
 	public static class LimeLightMounting {
-		public static final double
 		/**
 		 * TODO: Change accordingly.
 		 * How many degrees the limelight is mounted from perfectly vertical.
 		 */
-		limelightMountAngleDegrees = 90,
-
-				/**
-				 * TODO: Change accordingly.
-				 * The amount of inches from the center of the LimeLight lens to the floor.
-				 */
-				lensHeightInches = 20;
+		public static final double limelightMountAngleDegrees = 0;
+		/**
+		 * TODO: Change accordingly.
+		 * The amount of inches from the center of the LimeLight lens to the floor.
+		 */
+		public static final double lensHeightInches = 0;
 	}
 
 	public static class Gyroscope {
 		public static final Port gyroPort = SPI.Port.kMXP;
 	}
 
-	public static class AprilTagCoords {
-		/**
-		 * Function to get the coordinates of a given apriltag as a Translation2D (x and
-		 * y)
-		 * 
-		 * @param in_id The id of the apriltag
-		 * @return The field coordinates of the given apriltag as a Translation2D
-		 */
-		public static Translation2d TranslationFromAprilTagCoordinate(int in_id) {
-			int id = in_id;
-			return new Translation2d(MAP[id - 1][0], MAP[id - 1][1]);
-		}
-
-		/**
-		 * TODO: Change accordingly.
-		 * X, Y, Z, Heading (In that order)
-		 */
-		public static final double[][] MAP = {
-				{
-						593.68, 9.68, 53.38, 120
-				},
-				{
-						637.21, 34.79, 53.38, 120
-				},
-				{
-						652.73, 196.17, 57.13, 180
-				},
-				{
-						652.73, 218.42, 57.13, 180
-				},
-				{
-						578.77, 323.0, 53.38, 270
-				},
-				{
-						72.5, 323.0, 53.38, 270
-				},
-				{
-						-1.5, 218.42, 57.13, 0
-				},
-				{
-						-1.5, 196.17, 57.13, 0
-				},
-				{
-						14.02, 34.79, 53.38, 60
-				},
-				{
-						57.54, 9.68, 53.38, 60
-				},
-				{
-						468.69, 146.19, 52.0, 300
-				},
-				{
-						468.69, 177.1, 52.0, 60
-				},
-				{
-						441.74, 161.62, 52.0, 180
-				},
-				{
-						209.48, 161.62, 52.0, 0
-				},
-				{
-						182.73, 177.1, 52.0, 120
-				},
-				{
-						182.73, 146.19, 52.0, 240
-				}
-		};
-	}
-
 	public static class DriveTrain {
 		public static class MotorPorts {
 			/**
-			 * Front Left CAN Port
+			 * TODO: Change accordingly.
+			 * The CAN port of the front left motor.
 			 */
-			public static final int FRONT_LEFT = 2,
-					/**
-					 * Front Right CAN Port
-					 */
-					FRONT_RIGHT = 7,
-					/**
-					 * Back Left CAN Port
-					 */
-					BACK_LEFT = 5,
-					/**
-					 * Back Right CAN Port
-					 */
-					BACK_RIGHT = 6;
+			public static final int FRONT_LEFT = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The CAN port of the front right motor.
+			 */
+			public static final int FRONT_RIGHT = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The CAN port of the back left motor.
+			 */
+			public static final int BACK_LEFT = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The CAN port of the back right motor.
+			 */
+			public static final int BACK_RIGHT = 0;
 		}
 
 		public static class EncoderPorts {
 			/**
-			 * Front Left Encoder Channel A
+			 * TODO: Change accordingly.
+			 * The A channel port of the front left encoder.
 			 */
-			public static final int FRONT_LEFT_A = 4,
-					/**
-					 * Front Left Encoder Channel B
-					 */
-					FRONT_LEFT_B = 5,
-					/**
-					 * Front Right Encoder Channel A
-					 */
-					FRONT_RIGHT_A = 6,
-					/**
-					 * Front Right Encoder Channel B
-					 */
-					FRONT_RIGHT_B = 7,
-					/**
-					 * Back Left Encoder Channel A
-					 */
-					BACK_LEFT_A = 0,
-					/**
-					 * Back Left Encoder Channel B
-					 */
-					BACK_LEFT_B = 1,
-					/**
-					 * Back Right Encoder Channel A
-					 */
-					BACK_RIGHT_A = 2,
-					/**
-					 * Back Right Encoder Channel B
-					 */
-					BACK_RIGHT_B = 3;
+			public static final int FRONT_LEFT_A = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The B channel port of the front left encoder.
+			 */
+			public static final int FRONT_LEFT_B = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The A channel port of the front right encoder.
+			 */
+			public static final int FRONT_RIGHT_A = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The B channel port of the front right encoder.
+			 */
+			public static final int FRONT_RIGHT_B = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The A channel port of the back left encoder.
+			 */
+			public static final int BACK_LEFT_A = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The B channel port of the back left encoder.
+			 */
+			public static final int BACK_LEFT_B = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The A channel port of the back right encoder.
+			 */
+			public static final int BACK_RIGHT_A = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The B channel port of the back right encoder.
+			 */
+			public static final int BACK_RIGHT_B = 0;
 		}
 
 		public static class MotorLocations {
 			/**
 			 * TODO: Change accordingly.
-			 * Where the front left wheel is located relative to the center of the robot.
+			 * The position of the front left wheel relative to the center of the robot, in
+			 * meters.
 			 */
-			public static final double FRONT_LEFT = 0.0,
-					/**
-					 * TODO: Change accordingly.
-					 * Where the front right wheel is located relative to the center of the robot.
-					 */
-					FRONT_RIGHT = 0.0,
-					/**
-					 * TODO: Change accordingly.
-					 * Where the back left wheel is located relative to the center of the robot in
-					 * metres.
-					 */
-					BACK_LEFT = 0.0,
-					/**
-					 * TODO: Change accordingly.
-					 * Where the back right wheel is located relative to the center of the robot in
-					 * metres.
-					 */
-					BACK_RIGHT = 0.0;
+			public static final double FRONT_LEFT = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The position of the front right wheel relative to the center of the robot, in
+			 * meters.
+			 */
+			public static final double FRONT_RIGHT = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The position of the back left wheel relative to the center of the robot, in
+			 * meters.
+			 */
+			public static final double BACK_LEFT = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The position of the back right wheel relative to the center of the robot, in
+			 * meters.
+			 */
+			public static final double BACK_RIGHT = 0;
 		}
 	}
 
 	public static class Auton {
-		// TODO: Fill in these values
 		/**
-		 * z
+		 * TODO: Change accordingly.
 		 * The max forward speed of the robot in meters per second.
 		 */
-		public static final double MAX_SPEED = 7.58952,
-				/**
-				 * The prefered velocity of the robot in autonomous mode in meters per second.
-				 */
-				DRIVE_VEL = 8.5,
-				/**
-				 * TODO: Change accordingly.
-				 * The distance between the left and right wheels in metres.
-				 */
-				TRACK_WIDTH_METRES = .4826,
-				/**
-				 * The distance (In feet) per each pulse on the encoder
-				 */
-				DISTANCE_PER_PULSE = 25.132741228718 / 8192,
-				/**
-				 * The maximum acceleration of the robot in meters per second
-				 */
-				MAX_ACCEL = 7;// 9.8; (what)
-
-		public static final java.util.HashMap<String, Command> EVENT_MAP = new java.util.HashMap<>();
-
+		public static final double MAX_SPEED = 0;
 		/**
-		 * The file paths to all Pathweaver paths in the project
+		 * TODO: Change accordingly.
+		 * The prefered velocity of the robot in autonomous mode in meters per second.
 		 */
-		public static final String[] ALL_PATHS_ORDER = { "output/Straight.wpilib.json" };
-
+		public static final double DRIVE_VEL = 0;
 		/**
-		 * All paths in the project loaded as usable Trajectories
+		 * TODO: Change accordingly.
+		 * The distance between the left and right wheels in meters.
 		 */
-		public static Trajectory[] trajectories;
-
-		public static void LoadTrajectoriesFromPaths() {
-			try {
-				trajectories = ComplexAuton.loadPaths(Auton.ALL_PATHS_ORDER);
-			} catch (IOException ex) {
-				DriverStation.reportError("Failed to load trajectories", ex.getStackTrace());
-			}
-		}
+		public static final double TRACK_WIDTH_METERS = 0;
+		/**
+		 * TODO: Change accordingly.
+		 * The distance between pulses of the encoders in feet.
+		 */
+		public static final double DISTANCE_PER_PULSE = 0;
+		/**
+		 * TODO: Change accordingly.
+		 * The maximum acceleration of the robot in meters per second.
+		 */
+		public static final double MAX_ACCEL = 0;
 
 		public static class FeedForwardControllers {
-			public static final double
 			/**
-			 * The static gain (What the fuck does this mean)
+			 * TODO: Change accordingly.
+			 * The static gain, determined by a SysID characterization.
 			 */
-			STATIC_GAIN = 0,
-					/**
-					 * The velocity gain (Again what the fuck?)
-					 */
-					VELOCITY_GAIN = 0,
-					/**
-					 * The acceleration gain (What The Fuck)
-					 */
-					ACCEL_GAIN = 0;
+			public static final double STATIC_GAIN = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The velocity gain, determined by a SysID characterization.
+			 */
+			public static final double VELOCITY_GAIN = 0;
+			/**
+			 * TODO: Change accordingly.
+			 * The acceleration gain, determined by a SysID characterization.
+			 */
+			public static final double ACCEL_GAIN = 0;
 		}
 
 		public static class PIDControllers {
 			public static class Holonomic {
-				public static final double
 				/**
-				 * The P constant for the holonomicController's X (Field Relative) correction
-				 * PID loop
+				 * TODO: Change accordingly.
+				 * The P constant for the holonomicController's X correction.
+				 * PID loop.
+				 * Position units are field relative.
 				 */
-				XCONTROLLER_P = 1,
-						/**
-						 * The I constant for the holonomicController's X (Field Relative) correction
-						 * PID loop
-						 */
-						XCONTROLLER_I = 0,
-						/**
-						 * The D constant for the holonomicController's X (Field Relative) correction
-						 * PID loop
-						 */
-						XCONTROLLER_D = 0,
-
-						/**
-						 * The P constant for the holonomicController's Y (Field Relative) correction
-						 * PID loop
-						 */
-						YCONTROLLER_P = 1,
-						/**
-						 * The I constant for the holonomicController's Y (Field Relative) correction
-						 * PID loop
-						 */
-						YCONTROLLER_I = 0,
-						/**
-						 * The D constant for the holonomicController's Y (Field Relative) correction
-						 * PID loop
-						 */
-						YCONTROLLER_D = 0,
-
-						/**
-						 * The P constant for the holonomicController's rotation correction PID loop (In
-						 * degrees)
-						 */
-						THETACONTROLLER_P = 1,
-						/**
-						 * The I constant for the holonomicController's rotation correction PID loop (In
-						 * degrees)
-						 */
-						THETACONTROLLER_I = 0,
-						/**
-						 * The D constant for the holonomicController's rotation correction PID loop (In
-						 * degrees)
-						 */
-						THETACONTROLLER_D = 0;
-
+				public static final double XCONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the holonomicController's X correction.
+				 * PID loop.
+				 */
+				public static final double XCONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the holonomicController's X correction.
+				 * PID loop.
+				 * Position units are field relative.
+				 */
+				public static final double XCONTROLLER_D = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The P constant for the holonomicController's Y correction.
+				 * PID loop.
+				 * Position units are field relative.
+				 */
+				public static final double YCONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the holonomicController's Y correction.
+				 * PID loop.
+				 * Position units are field relative.
+				 */
+				public static final double YCONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the holonomicController's Y correction.
+				 * PID loop.
+				 * Position units are field relative.
+				 */
+				public static final double YCONTROLLER_D = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The P constant for the holonomicController's rotation correction PID loop.
+				 * Units are in degrees.
+				 */
+				public static final double THETACONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the holonomicController's rotation correction PID loop.
+				 * Units are in degrees.
+				 */
+				public static final double THETACONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the holonomicController's rotation correction PID loop.
+				 * Units are in degrees.
+				 */
+				public static final double THETACONTROLLER_D = 0;
 			}
 
 			public static class WheelVelocities {
-				public static final double
 				/**
-				 * The P constant for the individual motor velocity PID controller of the
-				 * frontLeft motor
+				 * TODO: Change accordingly.
+				 * The P constant for the individual motor velocity PIDController of the
+				 * frontLeft motor.
 				 */
-				FL_CONTROLLER_P = 1,
-						/**
-						 * The I constant for the individual motor velocity PID controller of the
-						 * frontLeft motor
-						 */
-						FL_CONTROLLER_I = 0,
-						/**
-						 * The D constant for the individual motor velocity PID controller of the
-						 * frontLeft motor
-						 */
-						FL_CONTROLLER_D = 0,
-
-						/**
-						 * The P constant for the individual motor velocity PID controller of the
-						 * frontRight motor
-						 */
-						FR_CONTROLLER_P = 1,
-						/**
-						 * The I constant for the individual motor velocity PID controller of the
-						 * frontRight motor
-						 */
-						FR_CONTROLLER_I = 0,
-						/**
-						 * The D constant for the individual motor velocity PID controller of the
-						 * frontRight motor
-						 */
-						FR_CONTROLLER_D = 0,
-
-						/**
-						 * The P constant for the individual motor velocity PID controller of the
-						 * rearLeft motor
-						 */
-						RL_CONTROLLER_P = 1,
-						/**
-						 * The I constant for the individual motor velocity PID controller of the
-						 * rearLeft motor
-						 */
-						RL_CONTROLLER_I = 0,
-						/**
-						 * The D constant for the individual motor velocity PID controller of the
-						 * rearLeft motor
-						 */
-						RL_CONTROLLER_D = 0,
-
-						/**
-						 * The P constant for the individual motor velocity PID controller of the
-						 * rearRight motor
-						 */
-						RR_CONTROLLER_P = 1,
-						/**
-						 * The I constant for the individual motor velocity PID controller of the
-						 * rearRight motor
-						 */
-						RR_CONTROLLER_I = 0,
-						/**
-						 * The D constant for the individual motor velocity PID controller of the
-						 * rearRight motor
-						 */
-						RR_CONTROLLER_D = 0;
-
+				public static final double FL_CONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the individual motor velocity PIDController of the
+				 * frontLeft motor.
+				 */
+				public static final double FL_CONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the individual motor velocity PIDController of the
+				 * frontLeft motor.
+				 */
+				public static final double FL_CONTROLLER_D = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The P constant for the individual motor velocity PIDController of the
+				 * frontRight motor.
+				 */
+				public static final double FR_CONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the individual motor velocity PIDController of the
+				 * frontRight motor.
+				 */
+				public static final double FR_CONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the individual motor velocity PIDController of the
+				 * frontRight motor.
+				 */
+				public static final double FR_CONTROLLER_D = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The P constant for the individual motor velocity PIDController of the
+				 * rearLeft motor.
+				 */
+				public static final double RL_CONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the individual motor velocity PIDController of the
+				 * rearLeft motor.
+				 */
+				public static final double RL_CONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the individual motor velocity PIDController of the
+				 * rearLeft motor.
+				 */
+				public static final double RL_CONTROLLER_D = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The P constant for the individual motor velocity PIDController of the
+				 * rearRight motor.
+				 */
+				public static final double RR_CONTROLLER_P = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The I constant for the individual motor velocity PIDController of the
+				 * rearRight motor.
+				 */
+				public static final double RR_CONTROLLER_I = 0;
+				/**
+				 * TODO: Change accordingly.
+				 * The D constant for the individual motor velocity PIDController of the
+				 * rearRight motor.
+				 */
+				public static final double RR_CONTROLLER_D = 0;
 			}
 		}
 	}
