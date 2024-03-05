@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.MecanumControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.PIDControllers.*;
 
 public class RobotContainer {
@@ -45,12 +46,13 @@ public class RobotContainer {
   public static final XboxController driverOneController = new XboxController(Controllers.DRIVERONE_PORT);
   public static final XboxController driverTwoController = new XboxController(Controllers.DRIVERTWO_PORT);
 
-  public static final JoystickButton
-  // FIXME: These are not the correct values 
-    driverOneX = new JoystickButton(driverOneController, 1),
-    driverOneA = new JoystickButton(driverOneController, 4),
-    driverOneB = new JoystickButton(driverOneController, 4),
-    driverOneY = new JoystickButton(driverOneController, 4);
+  public static final JoystickButton driverOneX = new JoystickButton(driverOneController, 3);
+  public static final JoystickButton driverOneA = new JoystickButton(driverOneController, 1);
+  public static final JoystickButton driverOneB = new JoystickButton(driverOneController, 2);
+  public static final JoystickButton driverOneY = new JoystickButton(driverOneController, 4);
+
+  public static final POVButton driveOnePOV = new POVButton(driverOneController, -1);
+
 
   public static final GenericHID saxController = new GenericHID(Constants.Controllers.Sax.PORT);
 
@@ -83,14 +85,14 @@ public class RobotContainer {
     initPose = new Pose2d(
       autonPathChooser.getSelected().getInitialPose().getX(), 
       autonPathChooser.getSelected().getInitialPose().getY(), 
-      // TODO: May need to be changed to autonPathChooser.getSelected().getInitialPose().getRotation()
+      // TODO: May need to be changed to autonPathChooser.getSelected().getInitialPose().getRotation().
       Gyroscope.sensor.getRotation2d()
     );
 
     configureBindings();
   }
 
-  // TODO: Bind SysId commands to buttons
+  // TODO: Bind SysID commands to gamepad buttons.
   private void configureBindings() {
     // Configure controller bindings here.
     driverOneA.onTrue(cmdAutoShooterAlign);
@@ -125,18 +127,10 @@ public class RobotContainer {
     return Commands.sequence(
         new InstantCommand(() -> {
           DriveTrain.Odometry.resetDriveOdometry(autonPathChooser.getSelected().getInitialPose());
-          DriveTrain.Motors.frontLeft.setSafetyEnabled(false);
-          DriveTrain.Motors.frontRight.setSafetyEnabled(false);
-          DriveTrain.Motors.rearLeft.setSafetyEnabled(false);
-          DriveTrain.Motors.rearRight.setSafetyEnabled(false);
         }),
         mecanumController,
         new InstantCommand(() -> {
           DriveTrain.mecanum.driveCartesian(0, 0, 0);
-          DriveTrain.Motors.frontLeft.setSafetyEnabled(true);
-          DriveTrain.Motors.frontRight.setSafetyEnabled(true);
-          DriveTrain.Motors.rearLeft.setSafetyEnabled(true);
-          DriveTrain.Motors.rearRight.setSafetyEnabled(true);
         }));
   }
 }
