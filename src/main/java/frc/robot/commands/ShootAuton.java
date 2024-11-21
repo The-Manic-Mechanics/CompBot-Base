@@ -13,29 +13,29 @@ import frc.robot.subsystems.Shooter;
  * Used to shoot a note.
  */
 public final class ShootAuton extends Command {
-	boolean isFinished;
+    boolean isFinished;
 
-	public ShootAuton() {
-	}
+    public ShootAuton() {
+    }
 
-	@Override
-	public void initialize() {
-		isFinished = false;
-	}
+    @Override
+    public void initialize() {
+        isFinished = false;
+    }
 
-	@Override
-	public void execute() {
-		Shooter.setSpeed(1);
-		Timer.delay(2);
-		Intake.setSpeed(-frc.robot.Constants.Intake.SPEED);
-		Timer.delay(.8);
-		Shooter.setSpeed(0);
-		Intake.setSpeed(0);
-		isFinished = true;
-	}
+    @Override
+    public void execute() {
+        Shooter.setSpeed(1);
+        Timer.delay(2);
+        Intake.setSpeed(-frc.robot.Constants.Intake.SPEED);
+        Timer.delay(.8);
+        Shooter.setSpeed(0);
+        Intake.setSpeed(0);
+        isFinished = true;
+    }
 
-	@Override
-	public boolean isFinished() {
-		return isFinished;
-	}
+    @Override
+    public boolean isFinished() {
+        return isFinished;
+    }
 }

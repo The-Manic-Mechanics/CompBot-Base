@@ -16,25 +16,25 @@ public class Gyroscope extends SubsystemBase {
     public static double pitch;
     /**
      * Stores the current roll rotation of the robot obtained from the sensor.
-     */ 
+     */
     public static double roll;
     /**
      * Stores the current yaw rotation of the robot obtained from the sensor.
      */
     public static double yaw;
-    
-	public Gyroscope() {
+
+    public Gyroscope() {
         sensor = new AHRS(Port.kMXP);
     }
 
     @Override
     public void periodic() {
         pitch = sensor.getPitch();
-		roll = sensor.getRoll();
-		yaw = sensor.getYaw();
+        roll = sensor.getRoll();
+        yaw = sensor.getYaw();
 
-		// SmartDashboard.putNumber("Pitch (Less Fancy)", pitch);
-		// SmartDashboard.putNumber("Roll (Less Fancy)", roll);
-		// SmartDashboard.putNumber("Yaw (Less Fancy)", yaw);
+        // SmartDashboard.putNumber("Pitch (Less Fancy)", pitch);
+        // SmartDashboard.putNumber("Roll (Less Fancy)", roll);
+        // SmartDashboard.putNumber("Yaw (Less Fancy)", yaw);
     }
 }

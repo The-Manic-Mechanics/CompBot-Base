@@ -4,68 +4,60 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.HumanInterface;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveMecanum extends CommandBase {
-  /** Creates a new DriveMecanum. */
-  private final DriveTrain sysDriveTrain;
+/**
+ * Used for driving the robot during TeleOperation by polling the controllers
+ * and commanding the Mecanum with the polled controller data.
+ */
+public final class DriveMecanum extends Command {
+    /**
+     * The robot's movement speed along the X axis, usually in a strafing motion.
+     */
+    double moveSpeedX;
+    /**
+     * The robot's movement speed along the Y axis, usually in forward or backward
+     * motion.
+     */
+    double moveSpeedY;
+    /**
+     * The robot's movement speed along the Z axis.
+     */
+    double moveSpeedZ;
+    /**
+     * ( :
+     */
+    double speedMultiplier = 1;
 
-  double moveSpeedY;
-  double moveSpeedX;
-  double moveSpeedZ;
-
-  public DriveMecanum(DriveTrain inSysDriveTrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    sysDriveTrain = inSysDriveTrain;
-
-    addRequirements(sysDriveTrain);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-
-    if (RobotContainer.driverMainController.getLeftTriggerAxis() != 0) {
-      moveSpeedX = -1 * RobotContainer.driverMainController.getLeftTriggerAxis();
+    public DriveMecanum(DriveTrain inSysDriveTrain) {
+        addRequirements(inSysDriveTrain);
     }
 
-    if (RobotContainer.driverMainController.getRightTriggerAxis() != 0) {
-      moveSpeedX = RobotContainer.driverMainController.getRightTriggerAxis();
+    @Override
+    public void execute() {
+        // TODO: Driver prefrence specific, change accordingly.
+        // Get the speeds from the driver controller and multiply it by the speed.
+        SmartDashboard.putNumber("c_encFrontLeft", DriveTrain.Encoders.frontLeft.getPosition());
+        SmartDashboard.putNumber("c_encRearRight", DriveTrain.Encoders.rearRight.getPosition());
+        HumanInterface.DriveMecanum.smartDashboardDebugPut();
+        // Turning, negative is right
+        moveSpeedX = speedMultiplier * HumanInterface.DriveMecanum.getAxisY();
+        // Crabbing, negative is right
+        moveSpeedY = speedMultiplier * HumanInterface.DriveMecanum.getAxisX();
+        // Drive, forwards is negative.
+        moveSpeedZ = speedMultiplier * HumanInterface.DriveMecanum.getAxisZ();
+
+        // Put in controller inputs and drive the motors accordingly
+        DriveTrain.mecanum.driveCartesian(moveSpeedX, moveSpeedY, moveSpeedZ);
     }
 
-    if (Math.abs(RobotContainer.driverMainController.getLeftY()) > .082) {
-      moveSpeedY = RobotContainer.driverMainController.getLeftY();
-    } else {
-      moveSpeedY = 0;
+    @Override
+    public void end(boolean interrupted) {
+        // Set the motor speeds to zero in event of an interruption.
+        DriveTrain.mecanum.driveCartesian(0, 0, 0);
     }
 
-    if (Math.abs(RobotContainer.driverMainController.getLeftX()) > .045) {
-      moveSpeedX = -1 * RobotContainer.driverMainController.getLeftX();
-    } else {
-      moveSpeedX = 0;
-    }
-    
-    if (Math.abs(RobotContainer.driverMainController.getRightX()) > .1)
-    moveSpeedZ = -1  * RobotContainer.driverMainController.getRightX();
-    
-    sysDriveTrain.CartisianDrive(moveSpeedY, moveSpeedX, moveSpeedZ);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    sysDriveTrain.CartisianDrive(0, 0, 0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

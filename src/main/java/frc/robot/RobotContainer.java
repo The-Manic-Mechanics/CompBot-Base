@@ -24,52 +24,52 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 public class RobotContainer {
-  private static Gyroscope sysGyroscope = new Gyroscope();
-  private static DriveTrain sysDriveTrain = new DriveTrain();
-  private static ComplexAuton sysComplexAuton = new ComplexAuton(sysDriveTrain);
-  private static SysID sysSysID = new SysID(sysDriveTrain);
+    private static Gyroscope sysGyroscope = new Gyroscope();
+    private static DriveTrain sysDriveTrain = new DriveTrain();
+    private static ComplexAuton sysComplexAuton = new ComplexAuton(sysDriveTrain);
+    private static SysID sysSysID = new SysID(sysDriveTrain);
 
-  public static AutoShooterAlign cmdAutoShooterAlign = new AutoShooterAlign(sysDriveTrain, sysComplexAuton);
+    public static AutoShooterAlign cmdAutoShooterAlign = new AutoShooterAlign(sysDriveTrain, sysComplexAuton);
 
-  public static Pose2d initPose;
+    public static Pose2d initPose;
 
-  public RobotContainer() {
-    Intake sysIntake = new Intake();
-    Shooter sysShooter = new Shooter();
-    Climber sysClimber = new Climber();
+    public RobotContainer() {
+        Intake sysIntake = new Intake();
+        Shooter sysShooter = new Shooter();
+        Climber sysClimber = new Climber();
 
-    ShooterDrive cmdShooterDrive = new ShooterDrive(sysShooter);
-    IntakeDrive cmdIntakeDrive = new IntakeDrive(sysIntake);
-    DriveMecanum cmdDriveMecanum = new DriveMecanum(sysDriveTrain);
-    ClimberDrive cmdClimberDrive = new ClimberDrive(sysClimber);
+        ShooterDrive cmdShooterDrive = new ShooterDrive(sysShooter);
+        IntakeDrive cmdIntakeDrive = new IntakeDrive(sysIntake);
+        DriveMecanum cmdDriveMecanum = new DriveMecanum(sysDriveTrain);
+        ClimberDrive cmdClimberDrive = new ClimberDrive(sysClimber);
 
-    sysShooter.setDefaultCommand(cmdShooterDrive);
-    sysDriveTrain.setDefaultCommand(cmdDriveMecanum);
-    sysIntake.setDefaultCommand(cmdIntakeDrive);
-    sysClimber.setDefaultCommand(cmdClimberDrive);
+        sysShooter.setDefaultCommand(cmdShooterDrive);
+        sysDriveTrain.setDefaultCommand(cmdDriveMecanum);
+        sysIntake.setDefaultCommand(cmdIntakeDrive);
+        sysClimber.setDefaultCommand(cmdClimberDrive);
 
-    configureBindings();
+        configureBindings();
 
-    Auton.loadTrajectoriesFromPaths();
-  }
+        Auton.loadTrajectoriesFromPaths();
+    }
 
-  // TODO: Bind SysID commands to gamepad buttons.
-  private void configureBindings() {
-    // Define the controls used in new functions within HumanInterface.CommandMap and then supply the command here.
-    // HumanInterface.CommandMap.runSysIDQuasistaticForwards(sysSysID.runQuasistatic(Direction.kReverse));  
-    // HumanInterface.CommandMap.runSysIDQuasistaticBackwards(sysSysID.runQuasistatic(Direction.kForward));  
-    // HumanInterface.CommandMap.runSysIDDynamicForwards(sysSysID.runDynamic(Direction.kReverse));
-    // HumanInterface.CommandMap.runSysIDDynamicBackwards(sysSysID.runDynamic(Direction.kForward));
-  }
+    // TODO: Bind SysID commands to gamepad buttons.
+    private void configureBindings() {
+        // Define the controls used in new functions within HumanInterface.CommandMap and then supply the command here.
+        // HumanInterface.CommandMap.runSysIDQuasistaticForwards(sysSysID.runQuasistatic(Direction.kReverse));
+        // HumanInterface.CommandMap.runSysIDQuasistaticBackwards(sysSysID.runQuasistatic(Direction.kForward));
+        // HumanInterface.CommandMap.runSysIDDynamicForwards(sysSysID.runDynamic(Direction.kReverse));
+        // HumanInterface.CommandMap.runSysIDDynamicBackwards(sysSysID.runDynamic(Direction.kForward));
+    }
 
-  public Command getAutonomousCommand() {
-    // If the "no trajectory" option is chosen, do not run anything.
-    if (DriveTrain.Odometry.autonRoutineChooser.getSelected() == null)
-      return new InstantCommand(() -> {});
+    public Command getAutonomousCommand() {
+        // If the "no trajectory" option is chosen, do not run anything.
+        if (DriveTrain.Odometry.autonRoutineChooser.getSelected() == null)
+            return new InstantCommand(() -> {});
 
-    return DriveTrain.Odometry.autonRoutineChooser.getSelected() instanceof Trajectory ?
-      ComplexAuton.createDriveCommand(((Trajectory)DriveTrain.Odometry.autonRoutineChooser.getSelected()), true)
-      :
-      (Command)DriveTrain.Odometry.autonRoutineChooser.getSelected();
-  }
+        return DriveTrain.Odometry.autonRoutineChooser.getSelected() instanceof Trajectory ?
+                ComplexAuton.createDriveCommand(((Trajectory)DriveTrain.Odometry.autonRoutineChooser.getSelected()), true)
+                :
+                (Command)DriveTrain.Odometry.autonRoutineChooser.getSelected();
+    }
 }

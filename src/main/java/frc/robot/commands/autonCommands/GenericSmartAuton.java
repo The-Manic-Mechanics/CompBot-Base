@@ -9,15 +9,15 @@ import frc.robot.Constants.Auton;
 import frc.robot.subsystems.ComplexAuton;
 
 public class GenericSmartAuton extends SequentialCommandGroup {
-  public GenericSmartAuton() {
-    // FIXME: Order will change depending on path
-    addCommands(
-      // TODO: Finish this
-      // Example
-      // new InstantCommand(() -> {
-      //   Intake.
-      // }),
-      ComplexAuton.createDriveCommand(Auton.trajectories[0], true)
-    );
-  }
+    public GenericSmartAuton() {
+        // FIXME: Order will change depending on path
+        addCommands(
+                // TODO: Finish this
+                // Example
+                // new InstantCommand(() -> {
+                //   Intake.
+                // }),
+                ComplexAuton.createDriveCommand(Auton.trajectories[0], true)
+        );
+    }
 }
